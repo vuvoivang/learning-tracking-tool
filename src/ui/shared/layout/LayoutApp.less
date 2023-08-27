@@ -1,0 +1,127 @@
+.cms-layout-app {
+  min-height: 100vh;
+
+  &-login {
+    padding-top: 20vh;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    background-image: url(../../assets/images/background-login.png);
+    background-size: 100% 100%;
+
+    .layout-form-login {
+      min-width: 328px;
+      max-width: 75vh;
+    }
+  }
+
+  .trigger {
+    padding: 0 24px;
+    font-size: 18px;
+    line-height: 64px;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+
+  .trigger:hover {
+    color: #003a8c;
+  }
+
+  .logo {
+    height: 52px;
+    margin: 16px;
+    background-image: url('https://stc-fin.zdn.vn/fiza-website/images/logo_v2.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  .logo-login {
+    width: 130px;
+    height: 130px;
+    margin: 0 auto;
+  }
+
+  .zalo-wrap-img {
+    width: auto;
+
+    .text-login-with {
+      margin-right: 10px;
+      font-size: 15px;
+    }
+
+    .icon {
+      width: 50px;
+      filter: sepia(100%) grayscale(100%);
+    }
+
+    .icon:hover {
+      width: 50px;
+      filter: none;
+    }
+  }
+
+  .site-layout .site-layout-background {
+    background: #fff;
+    padding: 0 24px 24px;
+  }
+
+  .site-layout .site-layout-background-header {
+    background: #fff;
+    padding: 0 24px 24px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .login-button {
+    width: 100%;
+  }
+}
+
+.ant-layout-sider-collapsed {
+  .logo {
+    background-image: url(https://stc-fin.zdn.vn/resources/images/logo-fiza-white-2.svg) !important;
+  }
+}
+
+.top-right-container {
+  display: flex;
+}
+
+.platform-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 30px;
+
+  .btn-logout {
+    margin-left: 20px;
+  }
+}
+
+.action-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 30px;
+
+  .btn-logout {
+    margin-left: 20px;
+  }
+}
+
+.app-type-menu {
+  padding-bottom: 16px;
+
+  .ant-menu-item {
+    flex-grow: 1;
+    text-align: center;
+  }
+}
+
+.check-color {
+  color: #2da504; 
+}
+
+.uncheck-color {
+  color: #e8450a; 
+}
