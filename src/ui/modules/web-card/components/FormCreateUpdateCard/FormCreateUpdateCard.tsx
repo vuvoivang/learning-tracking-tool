@@ -33,7 +33,7 @@ const FormCreateUpdateCard = ({ id }) => {
 
   const handleSubmitSuccess = (successMsg) => () => {
     message.success(successMsg);
-    navigate(`/admin${ROUTE.CARD.LIST}`);
+    navigate(`${ROUTE.CARD.LIST}`);
   };
 
   const handleSubmit = useCallback(

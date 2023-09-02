@@ -42,7 +42,7 @@ const FormCreateUpdateBanner = ({ id, type }) => {
 
   const handleSubmitSuccess = (successMsg) => () => {
     message.success(successMsg);
-    navigate(`/admin${ROUTE.BANNER.LIST}`);
+    navigate(`${ROUTE.BANNER.LIST}`);
   };
 
   const handleSubmit = useCallback(

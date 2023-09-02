@@ -20,7 +20,7 @@ import { ActivityType } from '~/src/constant/new';
 function TableViewArticles() {
   const navigate = useNavigate();
   const { getAllProblems } = useProblem();
-  const isAdmin = localStorage.getItem('isAdmin');
+  const isAdmin = localStorage.getItem('isAdmin') == "true";
 
 
   const [list, { onPageChange, onAddItem, onEditItem, onFilterChange }] =
@@ -49,7 +49,7 @@ function TableViewArticles() {
               style={{ color: '#0050b3' }}
               onClick={() =>
                 navigate(
-                  `/admin/web-card/detail-problem?${createSearchParams({
+                  `/problem/detail-problem?${createSearchParams({
                     id: record.activityId,
                   }).toString()}`
                 )
@@ -74,7 +74,7 @@ function TableViewArticles() {
               style={{ color: '#0050b3' }}
               onClick={() =>
                 navigate(
-                  `/admin/web-article/update?${createSearchParams({
+                  `/problem/update?${createSearchParams({
                     id: record.activityId,
                   }).toString()}`
                 )
@@ -105,7 +105,7 @@ function TableViewArticles() {
             type="primary"
             icon={<PlusCircleOutlined />}
             onClick={() => {
-              navigate(`/admin/web-article/create`);
+              navigate(`/problem/create`);
             }}
             style={{ width: 'fit-content', alignSelf: 'flex-end' }}
           >

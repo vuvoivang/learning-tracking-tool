@@ -29,7 +29,7 @@ export function useProblem() {
       );
       if (data.type === ApiType.SUCCESS) {
         message.success(`Tạo mới bài toán thành công!`);
-        navigate("/admin/web-article/list");
+        navigate("/problems/list");
       } else {
         message.error(data.message);
       }
@@ -52,7 +52,7 @@ export function useProblem() {
       );
       if (data.type === ApiType.SUCCESS) {
         message.success(`Cập nhật bài toán thành công!`);
-        navigate("/admin/web-article/list");
+        navigate("/problems/list");
       } else {
         message.error(data.message);
       }
@@ -66,7 +66,7 @@ export function useProblem() {
       );
       if (data.type === ApiType.SUCCESS) {
         message.success(`Xoá bài toán thành công!`);
-        navigate("/admin/web-article/list");
+        navigate("/problems/list");
       } else {
         message.error(data.message);
       }

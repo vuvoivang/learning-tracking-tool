@@ -77,7 +77,7 @@ const generateMenus = (data, appType) => {
 
 function LayoutApp() {
   const navigate = useNavigate();
-  const isAdmin = localStorage.getItem('isAdmin');
+  const isAdmin = localStorage.getItem('isAdmin') == "true";
 
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<any>();
@@ -109,7 +109,7 @@ function LayoutApp() {
     checkSession()
       .then(data => setUserInfo(data))
       .catch(err => {
-        navigate('/admin/login', { replace: true });
+        navigate('/login', { replace: true });
       });
   }, []);
 
@@ -131,7 +131,7 @@ function LayoutApp() {
         width={300}
         theme="light"
       >
-        <div className="logo cursor-pointer" onClick={() => navigate('web-article/list?app_type=website')}/>
+        <div className="logo cursor-pointer" onClick={() => navigate('problems/list?app_type=website')}/>
         {/* <Menu mode="inline" theme="light" selectedKeys={selectedKeys}>
           {generateMenus(menuTree, appType)}
         </Menu> */}

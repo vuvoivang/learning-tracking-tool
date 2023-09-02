@@ -18,7 +18,7 @@ export const columnTable: ColumnType<any>[] = [
     render: (value, record) => {
       return (
         <Link
-          to={`/admin${ROUTE.CARD.UPDATE}/${record.id}?app_type=website`}
+          to={`${ROUTE.CARD.UPDATE}/${record.id}?app_type=website`}
           relative="path"
         >
           {value}

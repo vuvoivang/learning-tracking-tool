@@ -15,6 +15,7 @@ import { userSelector } from '~/src/adapters/redux/selectors/user';
 import { AppstoreOutlined, MenuOutlined, SendOutlined } from '@ant-design/icons';
 import { authSelector } from '~/src/adapters/redux/selectors/auth';
 import Modal from 'antd/lib/modal/Modal';
+import { useComment } from '~/src/adapters/appService/comment.service';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -38,6 +39,7 @@ function DetailProblem({ id }) {
   const [form] = Form.useForm();
   const { getDetailProblem, createProblem, updateProblem, deleteProblem } =
     useProblem();
+  const { createComment, updateComment } = useComment();
 
   const [loading, setLoading] = useState<boolean>(true);
   const [problem, setProblem] = useState<Problem>();
@@ -86,7 +88,7 @@ function DetailProblem({ id }) {
       getItem('Xoá', 'delete'),
     ]),
   ]
-  const isAdmin = localStorage.getItem('isAdmin');
+  const isAdmin = localStorage.getItem('isAdmin') == "true";
 
   // const [openModalDelete, setOpenModalDelete] = useState(false);
   // const [confirmLoading, setConfirmLoading] = useState(false);
@@ -110,6 +112,21 @@ function DetailProblem({ id }) {
       deleteProblem(id).finally(() => {
         setLoading(false);
       });
+    }
+  }
+
+  const handleAddComment = () => {
+    const content = document.getElementById('cmt-textarea')?.value || '';
+    if (content) {
+      createComment({
+        comment: content,
+        problemId: id
+      }).then((res) => {
+        const newProblem = { ...problem };
+        newProblem.comments && newProblem.comments.push(res.data);
+        setProblem(newProblem);
+        document.getElementById('cmt-textarea')!.value = '';
+      })
     }
   }
 
@@ -209,18 +226,16 @@ function DetailProblem({ id }) {
                       }} alt="avatar">{getFirstLetterName(firstName)}</Avatar>}
                       content={
                         <div className='menu-click'>
-                          <p>
+                          <p style={{ wordBreak: 'break-all', wordWrap: "break-word" }}>
                             {item.content}
-
-
                           </p>
-                          <Menu onClick={() => { }} style={{ width: 256 }} mode="vertical" items={items} />
+                          {/* <Menu onClick={() => { }} style={{ width: 256 }} mode="vertical" items={items} /> */}
                         </div>
 
                       }
                       datetime={
                         <p>
-                          <span style={{ color: '#9c9d9f' }}>{formatDate(new Date(item.createDate))}</span>
+                          <span style={{ color: '#9c9d9f' }}>{formatDate(new Date(item.edited ? item.createDate : item.lastEditDate))}</span>
                           {item.edited && <span className="edited">Đã chỉnh sửa</span>}
                         </p>
                       }
@@ -234,7 +249,7 @@ function DetailProblem({ id }) {
                       <textarea id="cmt-textarea" name="cmt-textarea" rows={2} cols={50} placeholder={"Gửi bình luận mới"} />
                       {/* <SendOutlined /> */}
                       <Tooltip title="Gửi bình luận">
-                        <Button type="primary" shape="circle" icon={<SendOutlined />} />
+                        <Button type="primary" shape="circle" icon={<SendOutlined />} htmlType='button' onClick={handleAddComment} />
                       </Tooltip>
 
                     </div>

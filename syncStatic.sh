@@ -13,7 +13,7 @@ done
 #Variables: change it
 CM_COMMIT=${commit:-"Update version"}
 FOLDER_BUILD="./build"
-FOLDER_STATIC="../fintech-static/stg/react/admin-v2/"
+FOLDER_STATIC="../fintech-static/stg/react-v2/"
 
 echo "Start build react project:"
 # Change it if you use another framework

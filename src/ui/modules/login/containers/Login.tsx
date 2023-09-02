@@ -20,7 +20,7 @@ function Login() {
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      navigate('/admin/web-article/list');
+      navigate('/problems/list');
     }
   }, []);
 

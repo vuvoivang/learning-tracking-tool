@@ -3,9 +3,9 @@ import { HOT_PRODUCTS } from './api';
 const ROUTE = {
   LOGIN: '/login',
   CARD: {
-    LIST: '/web-cards/list',
-    CREATE: '/web-cards/create',
-    UPDATE: '/web-cards/update',
+    LIST: '/problem/list',
+    CREATE: '/problem/create',
+    UPDATE: '/problem/update',
   },
   BANNER: {
     LIST: '/banners/list',

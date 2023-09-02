@@ -45,7 +45,7 @@ function TableViewArticles() {
               style={{ color: '#0050b3' }}
               onClick={() =>
                 navigate(
-                  `/admin/web-category/update?${createSearchParams({
+                  `/web-category/update?${createSearchParams({
                     id: record.id,
                   }).toString()}`
                 )

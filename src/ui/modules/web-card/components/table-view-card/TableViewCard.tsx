@@ -35,7 +35,7 @@ function TableViewCards() {
     //           style={{ color: '#0050b3' }}
     //           onClick={() =>
     //             navigate(
-    //               `/admin/web-article/update?${createSearchParams({
+    //               `/problem/update?${createSearchParams({
     //                 id: record.id,
     //               }).toString()}`
     //             )

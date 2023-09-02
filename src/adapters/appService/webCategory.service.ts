@@ -26,7 +26,7 @@ export function useWebCategory() {
       );
       if (data.success) {
         message.success(`Tạo mới category thành công!`);
-        navigate("/admin/web-category/list");
+        navigate("/web-category/list");
       } else {
         message.error("Tạo mới category thất bại!");
       }
@@ -49,7 +49,7 @@ export function useWebCategory() {
       );
       if (data.success) {
         message.success(`Cập nhật category thành công!`);
-        navigate("/admin/web-category/list");
+        navigate("/web-category/list");
       } else {
         message.error("Cập nhật category thất bại!");
       }

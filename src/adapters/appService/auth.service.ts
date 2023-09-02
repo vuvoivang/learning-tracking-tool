@@ -26,7 +26,7 @@ export function useAuth() {
         localStorage.setItem('isAdmin', auth.isAdmin);
         dispatch(setAuthInfo(auth));
         message.success(resp.message);
-        navigate('/admin/web-article/list');
+        navigate('/problems/list');
       } else {
         message.error(resp.message);
       }
@@ -56,7 +56,7 @@ export function useAuth() {
       );
       localStorage.removeItem('token');
       localStorage.removeItem('isAdmin');
-      navigate('/admin/login');
+      navigate('/login');
     },
   };
 }

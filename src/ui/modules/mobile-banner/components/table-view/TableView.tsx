@@ -45,7 +45,7 @@ function TableViewCards() {
         return (
           <Space size="small">
             <Link
-              to={`/admin${ROUTE.BANNER.UPDATE}/${record.id}/${list.filters.banner_type}`}
+              to={`${ROUTE.BANNER.UPDATE}/${record.id}/${list.filters.banner_type}`}
             >
               <Button
                 type="primary"
@@ -75,7 +75,7 @@ function TableViewCards() {
             type="primary"
             icon={<PlusOutlined />}
             onClick={() => {
-              navigate(`/admin/banners/create`);
+              navigate(`/banners/create`);
             }}
           >
             Tạo mới Banner

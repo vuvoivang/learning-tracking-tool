@@ -118,6 +118,15 @@ export const CONSENT = {
   },
 };
 
+export const COMMENT = {
+  PUT: {
+    COMMENT: '/Comments',
+  },
+  POST: {
+    COMMENT: '/Comments',
+  },
+};
+
 const API = {
   AUTH,
   WEB_ARTICLE: PROBLEMS,
@@ -134,6 +143,7 @@ const API = {
   HOT_PRODUCTS,
   PROMOTE_PRODUCT,
   CONFIG_FEATURES,
+  COMMENT,
 };
 
 export default API;

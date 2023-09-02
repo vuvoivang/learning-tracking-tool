@@ -15,7 +15,7 @@ function ViewCategoryContainer() {
         type="primary"
         icon={<PlusOutlined />}
         onClick={() => {
-          navigate(`/admin/web-category/create`);
+          navigate(`/web-category/create`);
         }}
       >
         Tạo mới bài đăng
