@@ -15,7 +15,6 @@ export default ({ mode }) => {
   //   fs.readFileSync(path.resolve(__dirname, './src/ui/css/custom.less'), 'utf8')
   // );
   return defineConfig({
-    base: process.env.VITE_ASSET_PATH,
     plugins: [
       reactRefresh(),
       createStyleImportPlugin({
