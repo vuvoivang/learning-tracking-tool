@@ -13,6 +13,7 @@ import { formatDate, formatDateWithoutHour, formatNumber, formatStatus, getFirst
 import { useSelector } from 'react-redux';
 import { userSelector } from '~/src/adapters/redux/selectors/user';
 import { AppstoreOutlined, MenuOutlined, SendOutlined } from '@ant-design/icons';
+import { authSelector } from '~/src/adapters/redux/selectors/auth';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -87,6 +88,7 @@ function DetailProblem({ id }) {
       getItem('Xoá', 'delete'),
     ]),
   ]
+  const { isAdmin } = useSelector(authSelector);
 
   return (
     <div className="detail-problem">
@@ -120,16 +122,16 @@ function DetailProblem({ id }) {
 
                     <Form.Item wrapperCol={{ offset: 2, span: 18 }}>
                       <Button className='save' type="primary" htmlType="submit"   >
-                        Lưu thông tin
+                        Nộp bài
                       </Button>
 
                     </Form.Item>
-                    <Form.Item wrapperCol={{ offset: 2, span: 18 }}>
+                    {isAdmin && <Form.Item wrapperCol={{ offset: 2, span: 18 }}>
 
                       <Button type="primary" htmlType="button" danger>
                         Xoá bài toán
                       </Button>
-                    </Form.Item>
+                    </Form.Item>}
                   </Space>
 
 
@@ -149,7 +151,7 @@ function DetailProblem({ id }) {
                     <div className="row">
                       {/* <img width="20" height="20" src={ProblemSolved} /> */}
                       <span className="title">Tình trạng: </span>
-                      <span>{problem?.status && formatStatus(problem?.status)}</span>
+                      <span>{problem?.status !== undefined && formatStatus(problem?.status)}</span>
                     </div>
 
                     <div className="row">

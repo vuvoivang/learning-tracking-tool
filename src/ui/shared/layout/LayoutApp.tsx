@@ -21,7 +21,7 @@ import { MAIN_ROUTES, mobileMenus, websiteMenus } from '~/src/constant/menu';
 import useQuery from '~/src/hooks/useQuery';
 import { arrayToTree, queryAncestors } from '~/src/utils/menu';
 import { renderRoutes } from '~/src/utils/route';
-import { capitalizeFirstLetter, formatNumber } from '~/src/utils';
+import { capitalizeFirstLetter, formatNumber, getFirstLetterName } from '~/src/utils';
 import { ROLE } from '~/src/constant/role';
 import { AppType } from '~/src/constant';
 import ProblemSolved from '~/src/ui/assets/icons/problemSolved.svg';
@@ -191,10 +191,13 @@ function LayoutApp() {
               >
                 <Space>
                   <Avatar
-                    icon={<UserOutlined />}
-                    style={{ verticalAlign: 'middle' }}
-                    size="small"
-                  />
+                    // icon={<UserOutlined />}
+                    style={{
+                      backgroundColor: `rgb(0,72,245)`,
+                      verticalAlign: 'middle'
+                    }} alt="avatar"
+                    // size="small"
+                  >{getFirstLetterName(userInfo?.name?.split(' ').pop())}</Avatar>
                   {userInfo && userInfo.name}
                 </Space>
               </Dropdown>
