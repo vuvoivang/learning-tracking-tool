@@ -69,6 +69,9 @@ export const PROBLEMS = {
   PUT: {
     UPDATE_ARTICLE: '/Problems',
   },
+  DELETE: {
+    DELETE_ARTICLE: '/Problems',
+  },
 };
 
 export const WEB_CATEGORY = {

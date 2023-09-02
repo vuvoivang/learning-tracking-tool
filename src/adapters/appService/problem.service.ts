@@ -2,6 +2,7 @@ import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 
 import {
+  deleteWithPath,
   formatResponse,
   getWithPath,
   postWithPath,
@@ -51,6 +52,20 @@ export function useProblem() {
       );
       if (data.type === ApiType.SUCCESS) {
         message.success(`Cập nhật bài toán thành công!`);
+        navigate("/admin/web-article/list");
+      } else {
+        message.error(data.message);
+      }
+      return formatResponse(data);
+    },
+
+    async deleteProblem(id): Promise<Problem> {
+      const data = await deleteWithPath(
+        `${API.WEB_ARTICLE.PUT.UPDATE_ARTICLE}/${id}`,
+        {},
+      );
+      if (data.type === ApiType.SUCCESS) {
+        message.success(`Xoá bài toán thành công!`);
         navigate("/admin/web-article/list");
       } else {
         message.error(data.message);
