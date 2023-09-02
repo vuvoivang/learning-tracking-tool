@@ -1,19 +1,17 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 
-import {Button, Form, Layout, message, Tabs, Input} from 'antd';
-import {useSelector} from 'react-redux';
-import {useNavigate} from 'react-router-dom';
+import { Button, Form, Layout, Input } from 'antd';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import {LockOutlined, UserOutlined} from '@ant-design/icons';
-import {useAuth} from '~/src/adapters/appService/auth.service';
-import {authSelector} from '~/src/adapters/redux/selectors/auth';
-import {metaFormLogin} from '~/src/ui/modules/login/containers/props';
-import FormBuilder from '~/src/ui/shared/forms/FormBuilder';
-import zaloLogo from '~/src/ui/assets/images/zalo-logo.svg';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { useAuth } from '~/src/adapters/appService/auth.service';
+import { authSelector } from '~/src/adapters/redux/selectors/auth';
+import Logo from '~/src/ui/assets/images/logo.jpg';
 function Login() {
-  const {loginByAccount} = useAuth();
+  const { loginByAccount } = useAuth();
   const navigate = useNavigate();
-  const {roles, name} = useSelector(authSelector);
+  const { token, isAdmin } = useSelector(authSelector);
   const onFinish = (values: any) => {
     loginByAccount(values);
   };
@@ -23,18 +21,18 @@ function Login() {
   };
 
   useEffect(() => {
-    if (roles && name) {
+    if (token) {
       navigate('/admin/web-article/list');
     }
   }, []);
 
   return (
     <Layout className="cms-layout-app cms-layout-app-login">
-      <img className="logo-login" src="https://stc-fin.zdn.vn/fiza-website/images/logo_v2.svg"/>
+      <img className="logo-login" src={Logo} />
       <div className="layout-form-login">
         <Form
-          name="basic"
-          initialValues={{remember: true}}
+          name="login-basic"
+          initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
@@ -44,12 +42,12 @@ function Login() {
             rules={[
               {
                 required: true,
-                message: 'Please input your Username!',
+                message: 'Vui lòng nhập tên người dùng',
               },
             ]}
           >
             <Input
-              prefix={<UserOutlined className="site-form-item-icon"/>}
+              prefix={<UserOutlined className="site-form-item-icon" />}
               placeholder="Username"
             />
           </Form.Item>
@@ -58,31 +56,23 @@ function Login() {
             rules={[
               {
                 required: true,
-                message: 'Please input your Password!',
+                message: 'Vui lòng nhập mật khẩu',
               },
             ]}
           >
             <Input
-              prefix={<LockOutlined className="site-form-item-icon"/>}
+              prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"
               placeholder="Password"
             />
           </Form.Item>
-          <Form.Item>
+          <div className="submit-login-zone">
             <Button type="primary" htmlType="submit" className="login-button">
               Login
             </Button>
-          </Form.Item>
+          </div>
         </Form>
-        <div className="zalo-wrap-img">
-          <span className="text-login-with">Login with:</span>
-          <img
-            className="icon"
-            alt=""
-            src={zaloLogo}
-            onClick={() => message.info('Tính năng chưa phát triển')}
-          />
-        </div>
+
       </div>
     </Layout>
   );

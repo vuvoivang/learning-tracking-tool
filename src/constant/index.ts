@@ -12,13 +12,9 @@ export enum AppType {
 }
 
 export interface ResponseData<T> {
-  msg: string;
-  code: number;
+  message: string;
+  type: number;
   data: T;
-  success: boolean;
-  total?: number;
-  not_empty?: boolean;
-  empty?: boolean;
 }
 
 export enum ApiStatus {
@@ -57,9 +53,9 @@ export const MAP_PRODUCT_TYPE_ID = {
   [PRODUCT_TYPE_ID.SECURITIES]: 'Security',
 };
 
-export const DEFAULT_PAGE_SIZE = 5;
+export const DEFAULT_PAGE_SIZE = 20;
 
-export const PAGE_SIZE_OPTIONS = [5, 10, 20, 50];
+export const PAGE_SIZE_OPTIONS = [20, 50];
 
 export enum ICON_TYPE_ID {
   UNKNOWN = 'UNKNOWN',

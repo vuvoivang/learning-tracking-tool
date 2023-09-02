@@ -18,7 +18,7 @@ function ViewCategoryContainer() {
           navigate(`/admin/web-category/create`);
         }}
       >
-        Tạo mới Category
+        Tạo mới bài đăng
       </Button>
       <TableViewCategory />
     </div>

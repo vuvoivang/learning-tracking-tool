@@ -1,55 +1,92 @@
 import React from 'react';
 
 import { ColumnType } from 'antd/lib/table';
-import dayjs from 'dayjs';
+import { formatNumber } from '~/src/utils';
+import Question from '~/src/ui/assets/icons/question.svg';
+import Penalty from '~/src/ui/assets/icons/penalty.svg';
+import Transaction from '~/src/ui/assets/icons/transaction.svg';
 
-import { StateStatus } from '~/src/constant';
+import { ActivityType } from '~/src/constant/new';
+
+const AcTypeData = {
+  [ActivityType.PROBLEM]: {
+    icon: Question,
+    color: 'blue',
+  },
+  [ActivityType.PENALTY]: {
+    icon: Penalty,
+    color: 'red',
+  },
+  [ActivityType.TRANSACTION]: {
+    icon: Transaction,
+    color: 'green',
+  }
+}
 
 export const columnTableArticle: ColumnType<any>[] = [
   {
-    title: 'ID',
-    dataIndex: 'id',
-    width: 70,
-  },
-  {
-    title: 'Title',
-    dataIndex: 'title',
+    title: 'Tên',
+    dataIndex: ['activityName', 'type'],
     width: 280,
     ellipsis: true,
-  },
-  {
-    title: 'Category',
-    dataIndex: 'category_name',
-    width: 140,
-    ellipsis: true,
-  },
-  {
-    title: 'Index',
-    dataIndex: 'index',
-    width: 70,
-  },
-  {
-    title: 'State',
-    dataIndex: 'state',
-    width: 100,
-    render: (value) => {
-      return <p>{value === StateStatus.ACTIVE ? 'Active' : 'Inactive'}</p>;
+    render: (value, record) => {
+      return <div className='name-zone'>
+        <img width="20" height="20" src={AcTypeData[record.type as ActivityType]?.icon} className={AcTypeData[record.type as ActivityType]?.color} />
+        <p>{record.activityName}</p>
+      </div>;
     },
   },
   {
-    title: 'Created At',
-    dataIndex: 'created_at',
-    width: 160,
+    title: 'Giá tiền',
+    dataIndex: 'price',
+    width: 180,
     render: (value) => {
-      return <p>{dayjs(value).format('DD-MM-YYYY hh:mm:ss')}</p>;
+      return <p>{formatNumber(value)}đ</p>;
     },
   },
   {
-    title: 'Updated At',
-    dataIndex: 'updated_at',
-    width: 160,
-    render: (value) => {
-      return <p>{dayjs(value).format('DD-MM-YYYY hh:mm:ss')}</p>;
-    },
+    title: 'Ngày',
+    dataIndex: 'date',
+    width: 120,
   },
 ];
+
+export enum ProblemType {
+  FINISHED,
+  AVAILABLE,
+  LEARNING
+}
+
+const mappingProblemType = {
+  [ProblemType.FINISHED]: "Bài đã giải",
+  [ProblemType.AVAILABLE]: "Bài chưa giải",
+  [ProblemType.LEARNING]: "Lịch sử học tập"
+}
+
+export const metaFilterProblem = () => {
+  return {
+    fields: [
+      {
+        key: 'type',
+        widget: 'select',
+        options: Object.keys(ProblemType)
+          // eslint-disable-next-line no-restricted-globals
+          .filter((v) => !isNaN(Number(v)))
+          .map((key: any) => {
+            return {
+              label: mappingProblemType[key],
+              value: key,
+            };
+          }),
+        widgetProps: {
+          placeholder: 'Enter type problem',
+          allowClear: true,
+          style: {
+            minWidth: '310px',
+          },
+          defaultValue: mappingProblemType[ProblemType.AVAILABLE],
+        },
+      },
+    ],
+  };
+};

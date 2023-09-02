@@ -5,54 +5,27 @@ import { API_UPLOAD_IMAGE } from '~/src/constant/api';
 import Editor from '~/src/ui/shared/editor';
 import UploadButton from '~/src/ui/shared/upload';
 
-export const metaFormAddArticle = ({ categories }) => {
+export const metaFormAddProblem = () => {
   return {
     formItemLayout: [2, 20],
     fields: [
       {
-        key: 'thumbnail',
-        label: 'Thumbnail',
+        key: 'name',
+        label: 'Tên bài toán',
         required: true,
-        message: 'Vui lòng upload Thumbnail',
-        widget: UploadButton,
-        widgetProps: {
-          api: API_UPLOAD_IMAGE,
-        },
+        message: 'Vui lòng nhập tên bài toán',
       },
       {
-        key: 'title',
-        label: 'Title',
+        key: 'difficulty',
+        label: 'Độ khó',
+        message: 'Vui lòng nhập độ khó',
         required: true,
-        message: 'Vui lòng nhập title',
       },
       {
-        key: 'description',
-        label: 'Description',
-        message: 'Vui lòng nhập description',
-        widget: 'textarea',
-        widgetProps: {
-          autoSize: { maxRows: 20, minRows: 3 },
-          showCount: true,
-          maxLength: 300,
-        },
-      },
-      {
-        key: 'content',
-        label: 'Content',
-        message: 'Vui lòng nhập content',
-        widget: Editor,
-      },
-      {
-        key: 'source',
-        label: 'Source',
+        key: 'price',
+        label: 'Tiền thưởng',
         required: true,
-        message: 'Vui lòng nhập source',
-      },
-      {
-        key: 'index',
-        label: 'Index',
-        required: true,
-        message: 'Vui lòng nhập index',
+        message: 'Vui lòng nhập tiền thưởng',
         widget: 'number',
         widgetProps: {
           style: {
@@ -61,35 +34,15 @@ export const metaFormAddArticle = ({ categories }) => {
         },
       },
       {
-        key: 'category',
-        label: 'Category',
-        options:
-          categories?.length > 0
-            ? categories.map((item) => [item.id, item.name])
-            : [],
-        widget: 'select',
-        required: true,
-        widgetProps: {
-          style: {
-            minWidth: '12rem',
-          },
-          placeholder: 'Chọn category',
-        },
+        key: 'description',
+        label: 'Mô tả',
+        message: 'Vui lòng nhập mô tả',
+        widget: Editor,
       },
       {
-        key: 'state',
-        label: 'State',
-        options: MAP_STATE_STATUS_LIST,
-        widget: 'select',
-        required: true,
-        message: 'State không được để trống',
-        widgetProps: {
-          style: {
-            minWidth: '12rem',
-          },
-          placeholder: 'Chọn State',
-          allowClear: true,
-        },
+        key: 'solution',
+        label: 'Cách giải',
+        widget: Editor,
       },
     ],
   };

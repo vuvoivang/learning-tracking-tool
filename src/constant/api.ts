@@ -58,15 +58,16 @@ export const CONFIG_FEATURES = {
   PUT: '/config-feature',
 };
 
-export const WEB_ARTICLE = {
+export const PROBLEMS = {
   GET: {
-    ARTICLES: '/web-article',
+    ALL: '/Problems/all',
+    DETAIL: '/Problems',
   },
   POST: {
-    CREATE_ARTICLE: '/web-article',
+    CREATE_ARTICLE: '/Problems',
   },
   PUT: {
-    UPDATE_ARTICLE: '/web-article',
+    UPDATE_ARTICLE: '/Problems',
   },
 };
 
@@ -97,11 +98,11 @@ export const PARTNER = {
 
 export const AUTH = {
   GET: {
-    LOGOUT: '/auth/logout',
+    LOGOUT: '/Logout',
+    SESSION: '/Login/info',
   },
   POST: {
-    SESSION: '/auth/session',
-    LOGIN: '/auth/login',
+    LOGIN: '/Login',
   },
 };
 
@@ -116,7 +117,7 @@ export const CONSENT = {
 
 const API = {
   AUTH,
-  WEB_ARTICLE,
+  WEB_ARTICLE: PROBLEMS,
   WEB_CATEGORY,
   MOBILE_REPORT,
   PARTNER,

@@ -2,6 +2,7 @@
 
 import { DOMAIN_API_URL, ResponseData } from '~/src/constant';
 import { buildURLWithParam, extend } from '~/src/utils';
+import store from './redux/store';
 
 export function fetch(
   url,
@@ -11,10 +12,11 @@ export function fetch(
 ): Promise<ResponseData<any>> {
   const defaultHeaders = {
     'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
   };
   const exOptions = extend(
     {
-      credentials: 'include',
+      // credentials: 'include',
       headers: defaultHeaders,
     },
     options
@@ -198,16 +200,9 @@ function toBlob(resp) {
 }
 
 function validResp<T>(resp: ResponseData<T>): Promise<ResponseData<T>> {
-  if (resp?.success) {
-    return Promise.resolve(resp);
-  }
-  return Promise.reject(resp);
+  return Promise.resolve(resp);
 }
 
 export function formatResponse<T>(response): T {
-  const { code, data, success } = response;
-  if (success) {
-    return data;
-  }
-  throw new Error(JSON.stringify(response));
+  return response;
 }

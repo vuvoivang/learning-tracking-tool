@@ -161,9 +161,19 @@ export const formatNumber = (number, locale?: 'vi-VN') => {
   return number.toLocaleString(locale);
 };
 
+export const formatStatus = (number) => {
+  if(number === 1) return 'Bài đã giải';
+  if(number === 0) return 'Bài chưa giải'; 
+
+};
+
 // function to format date to locale
 export const formatDate = (date, locale?: 'vi-VN') => {
   return date && dayjs(Number(date)).format('DD/MM/YYYY HH:mm:ss');
+};
+
+export const formatDateWithoutHour = (date, locale?: 'vi-VN') => {
+  return date && dayjs(Number(date)).format('DD/MM/YYYY');
 };
 
 export function debounce(func, timeout = 300) {
@@ -231,4 +241,8 @@ export const getPromiseSettleResponseValue = (res, defaultValue = {}) => {
   }
   console.log(res.reason);
   return defaultValue;
+};
+
+export const getFirstLetterName = (name) => {
+  return name && name.charAt(0).toUpperCase();
 };

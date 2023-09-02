@@ -15,7 +15,6 @@ import {
 
 import { ROLE } from './role';
 import ROUTE from '~/src/constant/routes';
-import WithdrawRequest from '../ui/modules/mobile-withdraw-request/containers/WithdrawRequest';
 
 const ViewWebCard = lazy(
   () => import('../ui/modules/web-card/containers/ViewListCard')
@@ -37,57 +36,6 @@ const CreateUpdateBanner = lazy(
   () => import('../ui/modules/mobile-banner/containers/CreateUpdateBanner')
 );
 
-const ViewPartnerLogos = lazy(
-  () =>
-    import('../ui/modules/mobile-partner-logo/containers/ViewListPartnerLogos')
-);
-
-const CreateUpdatePartnerLogos = lazy(
-  () =>
-    import(
-      '../ui/modules/mobile-partner-logo/containers/CreateUpdatePartnerLogos'
-    )
-);
-
-const ViewHotProducts = lazy(
-  () =>
-    import('../ui/modules/mobile-hot-product/containers/ViewListHotProducts')
-);
-
-const CreateUpdateHotProducts = lazy(
-  () =>
-    import(
-      '../ui/modules/mobile-hot-product/containers/CreateUpdateHotProducts'
-    )
-);
-
-const ViewPromoteProducts = lazy(
-  () =>
-    import(
-      '../ui/modules/mobile-promote-product/containers/ViewListPromoteProduct'
-    )
-);
-
-const CreateUpdatePromoteProduct = lazy(
-  () =>
-    import(
-      '../ui/modules/mobile-promote-product/containers/CreateUpdatePromoteProduct'
-    )
-);
-
-const ViewConfigFeatures = lazy(
-  () =>
-    import(
-      '../ui/modules/mobile-config-feature/containers/ViewListConfigFeatures'
-    )
-);
-
-const CreateUpdateConfigFeatures = lazy(
-  () =>
-    import(
-      '../ui/modules/mobile-config-feature/containers/CreateUpdateConfigFeatures'
-    )
-);
 
 const CreateWebArticle = lazy(
   () => import('../ui/modules/web-article/containers/CreateWebArticle')
@@ -109,16 +57,6 @@ const UpdateWebCategory = lazy(
   () => import('../ui/modules/web-category/containers/CreateWebCategory')
 );
 
-const MobileReportInsurance = lazy(
-  () =>
-    import(
-      '../ui/modules/mobile-report-insurance/containers/MobileReportInsurance'
-    )
-);
-
-const MobileReportEkyc = lazy(
-  () => import('../ui/modules/mobile-report-ekyc/containers/MobileReportEkyc')
-);
 
 const Login = lazy(() => import('../ui/modules/login/containers/Login'));
 
@@ -129,7 +67,7 @@ export const MAIN_ROUTES = [
     element: Login,
   },
   {
-    path: ROUTE.CARD.LIST,
+    path: '/web-card/detail-problem',
     name: 'webCards',
     element: ViewWebCard,
   },
@@ -174,21 +112,6 @@ export const MAIN_ROUTES = [
     element: UpdateWebCategory,
   },
   {
-    path: '/report/insurance',
-    name: 'mobileReportInsurance',
-    element: MobileReportInsurance,
-  },
-  {
-    path: '/report/ekyc',
-    name: 'mobileReportEkyc',
-    element: MobileReportEkyc,
-  },
-  {
-    path: ROUTE.CONSENT.WITHDRAW_REQUEST_LIST,
-    name: 'withdrawRequest',
-    element: WithdrawRequest,
-  },
-  {
     path: ROUTE.BANNER.LIST,
     name: 'banners',
     element: ViewBanner,
@@ -202,66 +125,6 @@ export const MAIN_ROUTES = [
     path: `${ROUTE.BANNER.UPDATE}/:id/:type`,
     name: 'bannerUpdate',
     element: CreateUpdateBanner,
-  },
-  {
-    path: ROUTE.PARTNER_LOGO.LIST,
-    name: 'partnerLogos',
-    element: ViewPartnerLogos,
-  },
-  {
-    path: `${ROUTE.PARTNER_LOGO.CREATE}`,
-    name: 'partnerLogoCreate',
-    element: CreateUpdatePartnerLogos,
-  },
-  {
-    path: `${ROUTE.PARTNER_LOGO.UPDATE}/:id`,
-    name: 'partnerLogoUpdate',
-    element: CreateUpdatePartnerLogos,
-  },
-  {
-    path: ROUTE.HOT_PRODUCT.LIST,
-    name: 'hotProducts',
-    element: ViewHotProducts,
-  },
-  {
-    path: `${ROUTE.HOT_PRODUCT.CREATE}`,
-    name: 'hotProductCreate',
-    element: CreateUpdateHotProducts,
-  },
-  {
-    path: `${ROUTE.HOT_PRODUCT.UPDATE}/:id`,
-    name: 'hotProductUpdate',
-    element: CreateUpdateHotProducts,
-  },
-  {
-    path: ROUTE.PROMOTE_PRODUCT.LIST,
-    name: 'promoteProducts',
-    element: ViewPromoteProducts,
-  },
-  {
-    path: `${ROUTE.PROMOTE_PRODUCT.CREATE}`,
-    name: 'promoteProductCreate',
-    element: CreateUpdatePromoteProduct,
-  },
-  {
-    path: `${ROUTE.PROMOTE_PRODUCT.UPDATE}/:id`,
-    name: 'promoteProductUpdate',
-    element: CreateUpdatePromoteProduct,
-  },
-  {
-    path: ROUTE.CONFIG_FEATURE.LIST,
-    name: 'configFeatures',
-    element: ViewConfigFeatures,
-  },
-  {
-    path: `${ROUTE.CONFIG_FEATURE.CREATE}`,
-    name: 'configFeatureCreate',
-    element: CreateUpdateConfigFeatures,
-  },
-  {
-    path: `${ROUTE.CONFIG_FEATURE.UPDATE}/:id`,
-    name: 'configFeatureUpdate',
-    element: CreateUpdateConfigFeatures,
   },
 ];
 
@@ -890,20 +753,20 @@ export const websiteMenus = [
   //   route: "/admin/campaigns/list",
   //   role: [ROLE.Admin, ROLE.OP, ROLE.Setup, ROLE.CustomSetup],
   // },
-  {
-    id: 'product',
-    name: 'Products',
-    icon: DownloadOutlined,
-    role: [ROLE.Admin, ROLE.Registered, ROLE.OP, ROLE.Setup, ROLE.CustomSetup],
-  },
-  {
-    id: 'product-card',
-    name: 'Card',
-    icon: DownloadOutlined,
-    route: '/admin/web-cards/list',
-    menuParentId: 'product',
-    role: [ROLE.Admin, ROLE.Registered, ROLE.OP, ROLE.Setup, ROLE.CustomSetup],
-  },
+  // {
+  //   id: 'product',
+  //   name: 'Products',
+  //   icon: DownloadOutlined,
+  //   role: [ROLE.Admin, ROLE.Registered, ROLE.OP, ROLE.Setup, ROLE.CustomSetup],
+  // },
+  // {
+  //   id: 'product-card',
+  //   name: 'Card',
+  //   icon: DownloadOutlined,
+  //   route: '/admin/web-cards/list',
+  //   menuParentId: 'product',
+  //   role: [ROLE.Admin, ROLE.Registered, ROLE.OP, ROLE.Setup, ROLE.CustomSetup],
+  // },
   // {
   //   id: 'product-loan',
   //   name: 'Loan',
@@ -1005,25 +868,25 @@ export const websiteMenus = [
   // },
   {
     id: 'web-article-parent',
-    name: 'Articles',
+    name: 'Bài toán',
     icon: DownloadOutlined,
-    role: [ROLE.Admin, ROLE.OP],
+    role: [ROLE.Admin, ROLE.Guest],
   },
-  {
-    id: 'web-category',
-    name: 'Categories',
-    icon: DownloadOutlined,
-    route: '/admin/web-category/list',
-    menuParentId: 'web-article-parent',
-    role: [ROLE.Admin, ROLE.OP],
-  },
+  // {
+  //   id: 'web-category',
+  //   name: 'Categories',
+  //   icon: DownloadOutlined,
+  //   route: '/admin/web-category/list',
+  //   menuParentId: 'web-article-parent',
+  //   role: [ROLE.Admin, ROLE.Guest],
+  // },
   {
     id: 'web-article',
-    name: 'Articles',
+    name: 'Xem danh sách',
     icon: DownloadOutlined,
     route: '/admin/web-article/list',
     menuParentId: 'web-article-parent',
-    role: [ROLE.Admin, ROLE.OP],
+    role: [ROLE.Admin, ROLE.Guest],
   },
   // {
   //   id: "report",

@@ -1,9 +1,13 @@
-export interface ILoginData {
-  username: string;
-  password: string;
+export interface ISessionData {
+  name: string;
+  problemsSolved: number;
+  currentBalance: number;
+  rank: string;
+  nextRank: string;
+  nextRankProblems: string;
 }
 
 export interface ILoginResponseData {
-  name: string;
-  roles: string;
+  token: string;
+  isAdmin: boolean;
 }

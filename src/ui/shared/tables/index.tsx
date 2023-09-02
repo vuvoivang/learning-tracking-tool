@@ -76,7 +76,7 @@ function BaseTable<T extends object>(props: BaseTableProps<T>) {
       items,
       total,
       currentPage,
-      pageSize = 8,
+      pageSize = 20,
       isLoading,
       isFetched = true,
       isFilterChanged,

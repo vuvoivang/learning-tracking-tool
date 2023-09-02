@@ -14,7 +14,7 @@ function TableViewArticles() {
   const navigate = useNavigate();
   const { getAllWebCategories } = useWebCategory();
 
-  const [listCategories, setListCategories] = useState<Category[]>();
+  const [listCategories, setListCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const type = 1;
   const handleGetDataTable = () => {

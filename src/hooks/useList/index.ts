@@ -75,8 +75,8 @@ export default function useList<T>(
   useEffect(() => {
     const params = {
       ...filters,
-      limit: pageSize,
-      offset: (currentPage - 1) * pageSize,
+      pageSize,
+      pageNumber: currentPage,
     };
     dispatch(listActions.setLoadingAction(true));
     fetchFn(params)

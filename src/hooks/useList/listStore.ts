@@ -75,13 +75,13 @@ const listHandler = {
     };
   },
   fetchSuccess: (state, payload) => {
-    if (payload?.data?.length) {
+    if (payload?.totalItem) {
       return {
         ...state,
         isLoading: false,
         isFetched: true,
-        items: payload.data,
-        total: payload.total,
+        items: payload.activities,
+        total: payload.totalItem,
       };
     } else {
       return {

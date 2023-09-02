@@ -1,44 +1,64 @@
 import React, { useState, useEffect } from 'react';
 
-import { EditOutlined } from '@ant-design/icons';
-import { Button, Space } from 'antd';
+import { EditOutlined, PlusCircleOutlined, EyeOutlined } from '@ant-design/icons';
+import { Button, Card, Space } from 'antd';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 
-import { useWebArticle } from '~/src/adapters/appService/webArticle.service';
+import { useProblem } from '~/src/adapters/appService/problem.service';
 import { useWebCategory } from '~/src/adapters/appService/webCategory.service';
-import { WebArticle } from '~/src/domain/webArticle';
-import { columnTableArticle } from '~/src/ui/modules/web-article/components/table-view-article/props';
+import { Problem } from '~/src/domain/webArticle';
+import { ProblemType, columnTableArticle, metaFilterProblem } from '~/src/ui/modules/web-article/components/table-view-article/props';
 import Loading from '~/src/ui/shared/loading';
 import BaseTable from '~/src/ui/shared/tables';
-
+import useList from '~/src/hooks/useList';
+import BaseFilter from '~/src/ui/shared/forms/baseFilter';
+import { formatNumber } from '~/src/utils';
+import TableToolbar from '~/src/ui/shared/toolbar';
+import { useSelector } from 'react-redux';
+import { authSelector } from '~/src/adapters/redux/selectors/auth';
 function TableViewArticles() {
   const navigate = useNavigate();
-  const { getAllWebArticles } = useWebArticle();
-  const { getAllWebCategories } = useWebCategory();
+  const { getAllProblems } = useProblem();
+  const { isAdmin } = useSelector(authSelector);
 
-  const [listArticles, setListArticles] = useState<WebArticle[]>();
-  const [loading, setLoading] = useState<boolean>(true);
 
-  const handleGetDataTable = async () => {
-    const articleData = await getAllWebArticles();
-    const categoryData = await getAllWebCategories();
-    articleData.forEach((article) => {
-      const category = categoryData.find(
-        (cate) => cate.id === article.category
-      );
-      article.category_name = category?.name;
+  const [list, { onPageChange, onAddItem, onEditItem, onFilterChange }] =
+    useList({
+      defaultFilters: {
+        type: ProblemType.AVAILABLE,
+      },
+      fetchFn: (args) => getAllProblems(args),
+      // fetchFn: (args) => Promise.resolve([]),
     });
-    setListArticles(articleData);
-    setLoading(false);
-  };
-  useEffect(() => {
-    handleGetDataTable();
-  }, []);
 
   const columnTableArticleProps: any = [
     ...columnTableArticle,
     {
-      title: 'Actions',
+      title: 'Xem',
+      dataIndex: 'action',
+      width: 100,
+      render: (_, record, index) => {
+        return (
+          <Space size="small">
+            <Button
+              type="primary"
+              ghost
+              icon={<EyeOutlined />}
+              style={{ color: '#0050b3' }}
+              onClick={() =>
+                navigate(
+                  `/admin/web-card/detail-problem?${createSearchParams({
+                    id: record.activityId,
+                  }).toString()}`
+                )
+              }
+            />
+          </Space>
+        );
+      },
+    },
+    {
+      title: 'Cập nhật',
       dataIndex: 'action',
       width: 100,
       render: (_, record, index) => {
@@ -52,7 +72,7 @@ function TableViewArticles() {
               onClick={() =>
                 navigate(
                   `/admin/web-article/update?${createSearchParams({
-                    id: record.id,
+                    id: record.activityId,
                   }).toString()}`
                 )
               }
@@ -62,31 +82,45 @@ function TableViewArticles() {
       },
     },
   ];
+  if (!isAdmin) {
+    columnTableArticleProps.pop();
+  }
+
 
   return (
     <>
-      {loading ? (
-        <Loading />
-      ) : (
-        <>
-          <h6 className="cms-layout-title-medium mt-4">
-            Tìm thấy {listArticles?.length} articles
-          </h6>
-          {/* eslint-disable-next-line react/jsx-no-undef */}
-          <BaseTable
-            idKey="viewArticle"
-            columns={columnTableArticleProps}
-            data={{ items: listArticles }}
-            paginationProps={{
-              defaultPageSize: 10,
-              total: listArticles?.length,
-              showSizeChanger: true,
-              pageSizeOptions: ['5', '10', '20', '50'],
-              position: ['bottomRight'],
+      <BaseFilter
+        loading={list.isLoading}
+        meta={metaFilterProblem()}
+        onFilter={onFilterChange}
+      />
+      <Card>
+        <TableToolbar
+          title={`Tổng cộng: ${formatNumber(list.total || 0)}`}
+        >
+          <Button
+            type="primary"
+            icon={<PlusCircleOutlined />}
+            onClick={() => {
+              navigate(`/admin/web-article/create`);
             }}
-          />
-        </>
-      )}
+            style={{ width: 'fit-content', alignSelf: 'flex-end' }}
+          >
+            Tạo bài mới
+          </Button>
+        </TableToolbar>
+        <BaseTable
+          idKey="viewArticle"
+          columns={columnTableArticleProps}
+          data={{ items: list.items }}
+          paginationProps={{
+            defaultPageSize: list.pageSize,
+            total: list?.total,
+            showSizeChanger: true,
+            pageSizeOptions: ['20', '50'],
+            position: ['bottomRight'],
+          }} />
+      </Card>
     </>
   );
 }

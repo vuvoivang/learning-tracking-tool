@@ -1,28 +1,21 @@
 import React from 'react';
 
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
-import TableViewCards from '~/src/ui/modules/web-card/components/table-view-card/TableViewCard';
+import DetailProblem from '../components/detail-problem/DetailProblem';
+import useQuery from '~/src/hooks/useQuery';
 
-function ViewListCardContainer() {
-  const navigate = useNavigate();
+function ViewArticleContainer() {
+  const query = useQuery();
 
+  const id: any = query.get('id');
   return (
-    <div>
-      <Button
-        type="primary"
-        icon={<PlusOutlined />}
-        onClick={() => {
-          navigate(`/admin/web-cards/create`);
-        }}
-      >
-        Tạo mới Card
-      </Button>
-      <TableViewCards />
+    <div style={{ display: 'flex', flexDirection: 'column'}}> 
+      <DetailProblem id={id}/>
     </div>
   );
 }
 
-export default ViewListCardContainer;
+export default ViewArticleContainer;

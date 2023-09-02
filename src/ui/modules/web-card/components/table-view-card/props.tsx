@@ -41,9 +41,9 @@ export const columnTable: ColumnType<any>[] = [
   //   title: 'State',
   //   dataIndex: 'state',
   //   width: 100,
-  //   render: (value) => {
-  //     return <p>{value === StateStatus.ACTIVE ? 'Active' : 'Inactive'}</p>;
-  //   },
+    // render: (value) => {
+    //   return <p>{value === StateStatus.ACTIVE ? 'Active' : 'Inactive'}</p>;
+    // },
   // },
   // {
   //   title: 'Created At',
@@ -57,8 +57,8 @@ export const columnTable: ColumnType<any>[] = [
   //   title: 'Updated At',
   //   dataIndex: 'updated_at',
   //   width: 160,
-  //   render: (value) => {
-  //     return <p>{dayjs(value).format('DD-MM-YYYY hh:mm:ss')}</p>;
-  //   },
+    // render: (value) => {
+    //   return <p>{dayjs(value).format('DD-MM-YYYY hh:mm:ss')}</p>;
+    // },
   // },
 ];

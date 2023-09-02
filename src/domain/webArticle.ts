@@ -1,16 +1,27 @@
-import { StateStatus } from "~/src/constant";
+import { StateStatus } from '~/src/constant';
 
-export interface WebArticle {
-  id: number;
-  title: string;
-  thumbnail: string;
+export interface Problem {
+  id: string;
+  name: string;
   description: string;
-  category: number;
-  category_name?: string;
-  content: string;
-  source: string;
-  index: number;
-  state: StateStatus;
-  created_at: number;
-  updated_at: number;
+  price: number;
+  increase: boolean;
+  difficulty: string;
+  solution: string;
+  createDate: string;
+  finishedDate: string;
+  comments: [
+    {
+      id: string;
+      user: string;
+      content: string;
+      createDate: string;
+      lastEditDate: string;
+      editable: boolean;
+      edited: boolean;
+    }
+  ];
+  status: number;
+  normalizedName: string;
+  type: number;
 }

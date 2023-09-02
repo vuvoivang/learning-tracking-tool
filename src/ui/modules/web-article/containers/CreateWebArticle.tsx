@@ -10,7 +10,7 @@ function CreateArticle() {
   const id: any = query.get('id');
   const renderTitle = () => {
     const preTitle = id ? 'Cập nhật ' : 'Tạo mới ';
-    return `${preTitle}Article`;
+    return `${preTitle}bài tập`;
   };
   return (
     <>

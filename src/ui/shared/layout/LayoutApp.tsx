@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import {
   LogoutOutlined,
-  LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   MobileOutlined,
@@ -22,15 +21,29 @@ import { MAIN_ROUTES, mobileMenus, websiteMenus } from '~/src/constant/menu';
 import useQuery from '~/src/hooks/useQuery';
 import { arrayToTree, queryAncestors } from '~/src/utils/menu';
 import { renderRoutes } from '~/src/utils/route';
-import { capitalizeFirstLetter } from '~/src/utils';
+import { capitalizeFirstLetter, formatNumber } from '~/src/utils';
+import { ROLE } from '~/src/constant/role';
+import { AppType } from '~/src/constant';
+import ProblemSolved from '~/src/ui/assets/icons/problemSolved.svg';
+
+import CurrentBalance from '~/src/ui/assets/icons/currentBalance.svg';
+
+
+import Rank from '~/src/ui/assets/icons/rank.svg';
+
+import NextRank from '~/src/ui/assets/icons/nextRank.svg';
+
+import UpMoney from '~/src/ui/assets/icons/upMoney.svg';
+
+
 
 const { Header, Sider, Content } = Layout;
 
 const filterRole = roles => menu => {
   return menu.role
     ? roles.some(role => {
-        return menu.role.includes(role);
-      })
+      return menu.role.includes(role);
+    })
     : true;
 };
 
@@ -64,19 +77,19 @@ const generateMenus = (data, appType) => {
 
 function LayoutApp() {
   const navigate = useNavigate();
-  const { roles, name } = useSelector(authSelector);
+  const { isAdmin } = useSelector(authSelector);
   const [collapsed, setCollapsed] = useState<boolean>(false);
+  const [userInfo, setUserInfo] = useState<any>();
+
   const query = useQuery();
   const { checkSession, logout } = useAuth();
-  let queryAppType = query.get('app_type');
-  if (!['mobile', 'website'].includes(queryAppType)) {
-    queryAppType = 'mobile';
-  }
+  let queryAppType = query.get('app_type') || AppType.WEBSITE;
+
   const [appType, setAppType] = useState<any>(queryAppType);
 
-  const menus = appType === 'mobile' ? mobileMenus : websiteMenus;
+  const menus = websiteMenus;
 
-  const filteredMenus = menus.filter(filterRole(roles));
+  const filteredMenus = menus.filter(filterRole(isAdmin ? [ROLE.Admin] : [ROLE.Guest]));
 
   // Generating tree-structured data for menu content.
   const menuTree = arrayToTree(filteredMenus, 'id', 'menuParentId');
@@ -93,29 +106,11 @@ function LayoutApp() {
 
   useEffect(() => {
     checkSession()
-      .then(data => data)
+      .then(data => setUserInfo(data))
       .catch(err => {
         navigate('/admin/login', { replace: true });
       });
   }, []);
-
-  const handleAppTypeMenuClick = type => {
-    setAppType(type);
-    navigate(`?app_type=${type}`, { replace: true });
-  };
-
-  const items: MenuProps['items'] = [
-    {
-      key: 'mobile',
-      label: <a onClick={() => handleAppTypeMenuClick('mobile')}>Mobile</a>,
-      icon: <MobileOutlined />,
-    },
-    {
-      key: 'website',
-      label: <a onClick={() => handleAppTypeMenuClick('website')}>Website</a>,
-      icon: <WindowsOutlined />,
-    },
-  ];
 
   const itemsAvatar: MenuProps['items'] = [
     {
@@ -135,10 +130,44 @@ function LayoutApp() {
         width={300}
         theme="light"
       >
-        <div className="logo" />
-        <Menu mode="inline" theme="light" selectedKeys={selectedKeys}>
+        <div className="logo cursor-pointer" onClick={() => navigate('web-article/list?app_type=website')}/>
+        {/* <Menu mode="inline" theme="light" selectedKeys={selectedKeys}>
           {generateMenus(menuTree, appType)}
-        </Menu>
+        </Menu> */}
+
+        {userInfo && !collapsed && <div className="info-zone">
+          <div className="row">
+            <img width="20" height="20" src={ProblemSolved} />
+            <span className="title">Bài đã giải: </span>
+            <span>{userInfo?.problemsSolved}</span>
+          </div>
+
+          <div className="row">
+            <img width="20" height="20" src={CurrentBalance} />
+            <span className="title">Số tiền: </span>
+            <span>{userInfo && formatNumber(userInfo?.currentBalance)} đ</span>
+          </div>
+
+
+          <div className="row">
+            <img width="20" height="20" src={Rank} />
+            <span className="title">Hạng: </span>
+            <span>{userInfo?.rank}</span>
+          </div>
+
+
+          <div className="row">
+            <img width="20" height="20" src={NextRank} />
+            <span className="title">Hạng kế tiếp: </span>
+            <span>{userInfo?.nextRank}</span>
+          </div>
+
+          <div className="row">
+            <img width="20" height="20" src={UpMoney} />
+            <span className="title">Số bài lên hạng: </span>
+            <span>{userInfo?.nextRankProblems}</span>
+          </div>
+        </div>}
       </Sider>
       <Layout className="site-layout">
         <Header
@@ -153,27 +182,8 @@ function LayoutApp() {
             }
           )}
           <div className="top-right-container">
-            <div className="platform-container">
-              <Dropdown
-                menu={{
-                  items,
-                  selectable: true,
-                  defaultSelectedKeys: ['mobile'],
-                }}
-              >
-                <Button>
-                  <Space>
-                    {appType === 'mobile' ? (
-                      <MobileOutlined />
-                    ) : (
-                      <WindowsOutlined />
-                    )}
-                    {capitalizeFirstLetter(appType)}
-                  </Space>
-                </Button>
-              </Dropdown>
-            </div>
-            <div className="action-container">
+
+            <div className="action-container cursor-pointer">
               <Dropdown
                 menu={{
                   items: itemsAvatar,
@@ -185,14 +195,14 @@ function LayoutApp() {
                     style={{ verticalAlign: 'middle' }}
                     size="small"
                   />
-                  {name}
+                  {userInfo && userInfo.name}
                 </Space>
               </Dropdown>
             </div>
           </div>
         </Header>
         <Content
-          // className="site-layout-background"
+          className="bg-white"
           style={{
             margin: '24px 16px',
             padding: 24,
