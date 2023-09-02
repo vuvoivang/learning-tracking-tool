@@ -40,6 +40,8 @@ export function useAuth() {
       if (resp.name) {
         dispatch(setUserInfo(resp));
       } else {
+        localStorage.removeItem('token');
+        localStorage.removeItem('isAdmin');
         throw new Error(JSON.stringify(resp));
       }
       return resp;
