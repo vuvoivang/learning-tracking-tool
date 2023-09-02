@@ -23,6 +23,7 @@ export function useAuth() {
       if (resp.type === ApiType.SUCCESS) {
         const auth = resp.data;
         localStorage.setItem('token', auth.token);
+        localStorage.setItem('isAdmin', auth.isAdmin);
         dispatch(setAuthInfo(auth));
         message.success(resp.message);
         navigate('/admin/web-article/list');
@@ -52,6 +53,7 @@ export function useAuth() {
         })
       );
       localStorage.removeItem('token');
+      localStorage.removeItem('isAdmin');
       navigate('/admin/login');
     },
   };

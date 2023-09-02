@@ -80,7 +80,7 @@ export const metaFilterProblem = () => {
           }),
         widgetProps: {
           placeholder: 'Enter type problem',
-          allowClear: true,
+          allowClear: false,
           style: {
             minWidth: '310px',
           },

@@ -6,12 +6,10 @@ import { useNavigate } from 'react-router-dom';
 
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { useAuth } from '~/src/adapters/appService/auth.service';
-import { authSelector } from '~/src/adapters/redux/selectors/auth';
 import Logo from '~/src/ui/assets/images/logo.jpg';
 function Login() {
   const { loginByAccount } = useAuth();
   const navigate = useNavigate();
-  const { token, isAdmin } = useSelector(authSelector);
   const onFinish = (values: any) => {
     loginByAccount(values);
   };
@@ -21,7 +19,7 @@ function Login() {
   };
 
   useEffect(() => {
-    if (token) {
+    if (localStorage.getItem('token')) {
       navigate('/admin/web-article/list');
     }
   }, []);

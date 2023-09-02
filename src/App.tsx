@@ -8,8 +8,8 @@ import LayoutApp from '~/src/ui/shared/layout/LayoutApp';
 function App() {
   return (
     <Routes>
-      <Route path="/admin/login" element={<Login />} />
       <Route path="/admin/*" element={<LayoutApp />} />
+      <Route path="/*" element={<Login />} />
     </Routes>
   );
 }

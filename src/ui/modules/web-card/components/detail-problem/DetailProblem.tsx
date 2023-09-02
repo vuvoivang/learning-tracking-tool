@@ -35,9 +35,8 @@ function getItem(
 
 function DetailProblem({ id }) {
   const [form] = Form.useForm();
-  const { getDetailProblem, createProblem: createWebArticle, updateProblem: updateWebArticle } =
+  const { getDetailProblem, createProblem: createWebArticle, updateProblem } =
     useProblem();
-  const { getAllWebCategories } = useWebCategory();
 
   const [loading, setLoading] = useState<boolean>(true);
   const [problem, setProblem] = useState<Problem>();
@@ -47,21 +46,19 @@ function DetailProblem({ id }) {
 
 
   const handleSubmit = useCallback((values) => {
+    
     setLoading(true);
     const dataSubmit = {
+      ...problem,
       ...values,
     };
     if (id) {
       dataSubmit.id = id;
-      updateWebArticle(dataSubmit).then((res) => {
-        setLoading(false);
-      });
-    } else {
-      createWebArticle(dataSubmit).then((res) => {
+      updateProblem(dataSubmit).then((res) => {
         setLoading(false);
       });
     }
-  }, []);
+  }, [problem]);
 
   useEffect(() => {
     const handleGetMetaData = async () => {
@@ -88,7 +85,7 @@ function DetailProblem({ id }) {
       getItem('Xoá', 'delete'),
     ]),
   ]
-  const { isAdmin } = useSelector(authSelector);
+  const isAdmin = localStorage.getItem('isAdmin');
 
   return (
     <div className="detail-problem">
@@ -122,7 +119,7 @@ function DetailProblem({ id }) {
 
                     <Form.Item wrapperCol={{ offset: 2, span: 18 }}>
                       <Button className='save' type="primary" htmlType="submit"   >
-                        Nộp bài
+                        {problem.solution ? "Lưu bài giải" : "Nộp bài"}
                       </Button>
 
                     </Form.Item>

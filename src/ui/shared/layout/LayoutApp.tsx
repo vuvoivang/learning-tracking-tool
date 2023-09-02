@@ -77,7 +77,8 @@ const generateMenus = (data, appType) => {
 
 function LayoutApp() {
   const navigate = useNavigate();
-  const { isAdmin } = useSelector(authSelector);
+  const isAdmin = localStorage.getItem('isAdmin');
+
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<any>();
 

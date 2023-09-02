@@ -16,10 +16,11 @@ import { formatNumber } from '~/src/utils';
 import TableToolbar from '~/src/ui/shared/toolbar';
 import { useSelector } from 'react-redux';
 import { authSelector } from '~/src/adapters/redux/selectors/auth';
+import { ActivityType } from '~/src/constant/new';
 function TableViewArticles() {
   const navigate = useNavigate();
   const { getAllProblems } = useProblem();
-  const { isAdmin } = useSelector(authSelector);
+  const isAdmin = localStorage.getItem('isAdmin');
 
 
   const [list, { onPageChange, onAddItem, onEditItem, onFilterChange }] =
@@ -38,6 +39,7 @@ function TableViewArticles() {
       dataIndex: 'action',
       width: 100,
       render: (_, record, index) => {
+        if(record.type !== ActivityType.PROBLEM) return <></>;
         return (
           <Space size="small">
             <Button
@@ -62,6 +64,7 @@ function TableViewArticles() {
       dataIndex: 'action',
       width: 100,
       render: (_, record, index) => {
+        if(record.type === ActivityType.PENALTY) return <></>;
         return (
           <Space size="small">
             <Button
@@ -96,9 +99,9 @@ function TableViewArticles() {
       />
       <Card>
         <TableToolbar
-          title={`Tổng cộng: ${formatNumber(list.total || 0)}`}
+          title={`Tìm thấy ${formatNumber(list.total || 0)} kết quả`}
         >
-          <Button
+          {isAdmin && <Button
             type="primary"
             icon={<PlusCircleOutlined />}
             onClick={() => {
@@ -107,7 +110,7 @@ function TableViewArticles() {
             style={{ width: 'fit-content', alignSelf: 'flex-end' }}
           >
             Tạo bài mới
-          </Button>
+          </Button>}
         </TableToolbar>
         <BaseTable
           idKey="viewArticle"
