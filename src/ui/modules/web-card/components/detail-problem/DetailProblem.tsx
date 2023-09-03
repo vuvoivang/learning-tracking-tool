@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Button, Form, Space, Avatar, Comment, Tooltip, Menu, MenuProps, Popconfirm } from 'antd';
 
@@ -129,6 +129,16 @@ function DetailProblem({ id }) {
       })
     }
   }
+  const textAreRef = useRef();
+  const cmtListRef = useRef();
+  useEffect(() => {
+    setTimeout(() => { // auto scroll to textarea when long list comment
+      if (cmtListRef.current && textAreRef.current) {
+        console.log(textAreRef.current.getBoundingClientRect().top);
+        cmtListRef.current.scrollTop = textAreRef.current.getBoundingClientRect().top;
+      }
+    }, 500)
+  }, [])
 
   return (
     <div>
@@ -247,7 +257,7 @@ function DetailProblem({ id }) {
                         backgroundColor: `rgb(0,72,245)`,
                         verticalAlign: 'middle'
                       }} alt="avatar">{getFirstLetterName(firstName)}</Avatar>
-                      <textarea id="cmt-textarea" name="cmt-textarea" rows={2} cols={50} placeholder={"Gửi bình luận mới"} />
+                      <textarea ref={textAreRef} id="cmt-textarea" name="cmt-textarea" rows={2} cols={50} placeholder={"Gửi bình luận mới"} />
                       {/* <SendOutlined /> */}
                       <Tooltip title="Gửi bình luận">
                         <Button type="primary" shape="circle" icon={<SendOutlined />} htmlType='button' onClick={handleAddComment} />

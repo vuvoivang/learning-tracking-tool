@@ -224,7 +224,7 @@
     width: 100%;
     font-size: 17px;
     font-weight: 500;
-    color: #1b1bfd;
+    color: #7c7a7a;
     margin-bottom: 12px;
   }
   &_left {
@@ -266,10 +266,15 @@
     .comment-list {
       width: 100%;
       background-color: #fff;
-      padding: 16px;
+      padding: 16px 12px;
       border-radius: 8px;
       margin-bottom: 16px;
       box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+      max-height: 600px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      
+      // overflow-x: hidden;
       // .comment-right{
       //     display: flex;
       //     flex-direction: column;
@@ -327,6 +332,7 @@
     textarea {
       width: 230px;
       padding: 8px;
+      min-height: 70px;
 
       border: 1px solid #ccc;
       border-radius: 5px;
@@ -353,4 +359,23 @@
 
 .ant-menu-vertical.ant-menu-sub, .ant-menu-vertical-left.ant-menu-sub, .ant-menu-vertical-right.ant-menu-sub {
   min-width: 80px!important;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #b2b2b2;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #858484;
 }
