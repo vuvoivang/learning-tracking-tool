@@ -140,6 +140,14 @@ function DetailProblem({ id }) {
     }, 500)
   }, [])
 
+  useEffect(() => {
+    const prevTitle = document.title
+    if(problem?.name) document.title = problem.name;
+    return () => {
+      document.title = prevTitle
+    }
+  }, [problem?.name])
+
   return (
     <div>
       <div className="detail-problem">
