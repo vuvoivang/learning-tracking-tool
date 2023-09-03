@@ -96,6 +96,11 @@ export const MAIN_ROUTES = [
     name: 'updateWebArticle',
     element: UpdateWebArticle,
   },
+  {
+    path: "*",
+    name: 'webCardsx',
+    element: ViewWebArticle,
+  },
   // {
   //   path: '/web-category/list',
   //   name: 'webCategories',
@@ -126,11 +131,6 @@ export const MAIN_ROUTES = [
   //   name: 'bannerUpdate',
   //   element: CreateUpdateBanner,
   // },
-  {
-    path: '',
-    name: 'webCards',
-    element: ViewWebCard,
-  },
 ];
 
 export const mobileMenus = [
