@@ -126,6 +126,11 @@ export const MAIN_ROUTES = [
   //   name: 'bannerUpdate',
   //   element: CreateUpdateBanner,
   // },
+  {
+    path: '',
+    name: 'webCards',
+    element: ViewWebCard,
+  },
 ];
 
 export const mobileMenus = [
