@@ -8,7 +8,7 @@ import { Category } from '~/src/domain/category';
 import FormBuilder from '~/src/ui/shared/forms';
 import Loading from '~/src/ui/shared/loading';
 import { Problem } from '~/src/domain/webArticle';
-import { metaFormAddProblem } from './props';
+import { metaFormAddProblem, metaFormDescription } from './props';
 import { formatDate, formatDateWithoutHour, formatNumber, formatStatus, getFirstLetterName } from '~/src/utils';
 import { useSelector } from 'react-redux';
 import { userSelector } from '~/src/adapters/redux/selectors/user';
@@ -150,7 +150,8 @@ function DetailProblem({ id }) {
                 <div className='problem-content_left'>
                   <div>
                     <h3 className='problem-content-name-zone'>Đề bài:</h3>
-                    <div dangerouslySetInnerHTML={{ __html: problem.description }}></div>
+                    {/* <div dangerouslySetInnerHTML={{ __html: problem.description }}></div> */}
+                    <FormBuilder meta={metaFormDescription()} />
                   </div>
                   <div>
                     <h3 className='problem-content-name-zone'>Bài làm:</h3>

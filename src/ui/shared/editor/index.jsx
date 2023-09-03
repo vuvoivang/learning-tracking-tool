@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 
@@ -9,9 +9,10 @@ import './style.less';
 import ClassicEditor from 'ckeditor5-custom-build';
 
 const Editor = (props) => {
-  const { value = '', onChange } = props;
+  const { value = '', lockId, readOnly = false, onChange } = props;
   const random = (Math.random() + 1).toString(36).substring(7);
-  let _editor = null;
+  const _editor = useRef();
+
   return (
     <>
       <div id={`toolbar-container-${random}`} className="sticky-toolbar" />
@@ -38,12 +39,19 @@ const Editor = (props) => {
         editor={ClassicEditor}
         data={value}
         onReady={(editor) => {
-          const toolbarContainer = document.querySelector(
-            `#toolbar-container-${random}`
-          );
-          toolbarContainer?.appendChild(editor.ui.view.toolbar.element);
-          uploadAdapterPlugin(editor);
-          _editor = editor;
+          const toolbarElement = editor.ui.view.toolbar.element;
+          if (readOnly) {
+            editor.enableReadOnlyMode(lockId);
+            toolbarElement.style.display = 'none';
+          } else {
+            toolbarElement.style.display = 'flex';
+            const toolbarContainer = document.querySelector(
+              `#toolbar-container-${random}`
+            );
+            toolbarContainer?.appendChild(toolbarElement);
+            uploadAdapterPlugin(editor);
+          }
+          _editor.current = editor;
         }}
         onChange={(_, editor) => {
           const data = editor.getData();
