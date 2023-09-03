@@ -39,7 +39,7 @@ function TableViewArticles() {
       dataIndex: 'action',
       width: 100,
       render: (_, record, index) => {
-        if(record.type !== ActivityType.PROBLEM) return <></>;
+        if (record.type !== ActivityType.PROBLEM) return <></>;
         return (
           <Space size="small">
             <Button
@@ -64,7 +64,7 @@ function TableViewArticles() {
       dataIndex: 'action',
       width: 100,
       render: (_, record, index) => {
-        if(record.type === ActivityType.PENALTY) return <></>;
+        if (record.type === ActivityType.PENALTY) return <></>;
         return (
           <Space size="small">
             <Button
@@ -89,7 +89,6 @@ function TableViewArticles() {
     columnTableArticleProps.pop();
   }
 
-
   return (
     <>
       <BaseFilter
@@ -113,16 +112,19 @@ function TableViewArticles() {
           </Button>}
         </TableToolbar>
         <BaseTable
-          idKey="viewArticle"
+          idKey="viewProblems"
           columns={columnTableArticleProps}
-          data={{ items: list.items }}
+          data={{ items: list.items, total: list?.total, pageSize: list.pageSize }}
           paginationProps={{
-            defaultPageSize: list.pageSize,
-            total: list?.total,
+            pageSize: list.pageSize,
             showSizeChanger: true,
-            pageSizeOptions: ['20', '50'],
+            pageSizeOptions: ['10', '20', '50'],
             position: ['bottomRight'],
-          }} />
+            // hideOnSinglePage: true,
+            showQuickJumper: true,
+          }}
+          onChange={onPageChange}
+        />
       </Card>
     </>
   );

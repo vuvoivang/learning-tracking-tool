@@ -120,6 +120,8 @@ function BaseTable<T extends object>(props: BaseTableProps<T>) {
     rest.pagination = false;
   }
 
+  console.log(rest.pagination);
+
   if (enableID && !columns?.find((i) => i.title === 'STT')) {
     columns?.unshift({
       title: 'STT',
@@ -143,7 +145,6 @@ function BaseTable<T extends object>(props: BaseTableProps<T>) {
 
   if (isLoading && !isFetched)
     return <SkeletonTable {...rest} rowCount={10} columns={columns} />;
-
   return (
     <Table
       {...rest}

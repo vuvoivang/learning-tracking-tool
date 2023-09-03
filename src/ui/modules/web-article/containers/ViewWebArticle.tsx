@@ -4,7 +4,7 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
-import TableViewArticles from '~/src/ui/modules/web-article/components/table-view-article/TableViewArticle';
+import TableViewArticles from '~/src/ui/modules/web-article/components/table-view-article/TableViewProblem';
 
 function ViewArticleContainer() {
 
