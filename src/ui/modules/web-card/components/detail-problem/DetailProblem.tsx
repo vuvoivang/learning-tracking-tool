@@ -223,7 +223,7 @@ function DetailProblem({ id }) {
                       avatar={<Avatar style={{
                         backgroundColor: item.user !== firstName ? `rgb(245, 106, 0)` : `rgb(0,72,245)`,
                         verticalAlign: 'middle'
-                      }} alt="avatar">{getFirstLetterName(firstName)}</Avatar>}
+                      }} alt="avatar">{getFirstLetterName(item.user)}</Avatar>}
                       content={
                         <div className='menu-click'>
                           <p style={{ wordBreak: 'break-all', wordWrap: "break-word" }}>
