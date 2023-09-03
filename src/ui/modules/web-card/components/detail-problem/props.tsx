@@ -24,7 +24,7 @@ export const metaFormDescription = () => {
   };
 };
 
-export const metaFormAddProblem = () => {
+export const metaFormAddProblem = ({ isReadonlySolution }) => {
   return {
     formItemLayout: [2, 20],
     fields: [
@@ -38,6 +38,10 @@ export const metaFormAddProblem = () => {
         key: 'solution',
         // label: 'Cách giải',
         widget: Editor,
+        widgetProps: isReadonlySolution ? {
+          readOnly: true,
+          lockId: "ckeditor-solution",
+        } : undefined,
       },
     ],
   };

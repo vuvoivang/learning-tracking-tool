@@ -133,8 +133,9 @@ function DetailProblem({ id }) {
   const cmtListRef = useRef();
   useEffect(() => {
     setTimeout(() => { // auto scroll to textarea when long list comment
+      // console.log(cmtListRef.current, textAreRef.current)
       if (cmtListRef.current && textAreRef.current) {
-        console.log(textAreRef.current.getBoundingClientRect().top);
+        // console.log(textAreRef.current.getBoundingClientRect().top);
         cmtListRef.current.scrollTop = textAreRef.current.getBoundingClientRect().top;
       }
     }, 500)
@@ -147,6 +148,8 @@ function DetailProblem({ id }) {
       document.title = prevTitle
     }
   }, [problem?.name])
+
+  const isReadonlySolution = !isAdmin && problem?.status === 1;
 
   return (
     <div>
@@ -173,19 +176,19 @@ function DetailProblem({ id }) {
                   </div>
                   <div>
                     <h3 className='problem-content-name-zone'>Bài làm:</h3>
-                    <FormBuilder meta={metaFormAddProblem()} />
+                    <FormBuilder meta={metaFormAddProblem({isReadonlySolution})} />
                   </div>
                 </div>
                 <div className='problem-content_right'>
                   <div className='top'>
                     <Space align="end">
 
-                      <Form.Item wrapperCol={{ offset: 2, span: 18 }}>
+                      {!isReadonlySolution && <Form.Item wrapperCol={{ offset: 2, span: 18 }}>
                         <Button className='save' type="primary" htmlType="submit"   >
                           {problem.solution ? "Lưu bài giải" : "Nộp bài"}
                         </Button>
 
-                      </Form.Item>
+                      </Form.Item>}
                       {isAdmin && <Form.Item wrapperCol={{ offset: 2, span: 18 }}>
                         <Popconfirm
                           title={`Bạn có chắc muốn xoá bài toán này?`}
@@ -234,7 +237,7 @@ function DetailProblem({ id }) {
                       </div>}
                     </div>
                   </div>
-                  <div className='comment-list'>
+                  <div className='comment-list' ref={cmtListRef}>
                     {problem.comments.map((item, idx) => <Comment
                       // actions={actions}
                       // className={idx % 2 === 0 ? 'my-comment' : 'other-comment'}
