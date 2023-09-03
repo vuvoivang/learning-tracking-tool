@@ -4,14 +4,56 @@ import { MAP_STATE_STATUS, MAP_STATE_STATUS_LIST } from "~/src/constant";
 import { API_UPLOAD_IMAGE } from '~/src/constant/api';
 import Editor from '~/src/ui/shared/editor';
 import UploadButton from '~/src/ui/shared/upload';
+import moment from 'moment';
 
-export const metaFormAddProblem = () => {
+const STATUS_PROBLEM = [
+  { value: 0, label: "Chưa hoàn thành" },
+  { value: 1, label: "Đã hoàn thành" }
+]
+
+export const metaFormAddProblem = ({ isEdit }) => {
+
+  const metaEdited = isEdit ? [
+    {
+      key: 'createDate',
+      label: 'Thời gian tạo',
+      widget: 'date-picker',
+      widgetProps: {
+        showTime: true,
+        format: date => date.utc().format("DD/MM/YYYY HH:mm:ss"),
+      }
+    },
+    {
+      key: 'finishedDate',
+      label: 'Thời gian hoàn thành',
+      widget: 'date-picker',
+      widgetProps: {
+        showTime: true,
+        format: date => date.utc().format("DD/MM/YYYY HH:mm:ss"),
+      }
+    },
+    {
+      key: 'status',
+      label: 'Trạng thái',
+      options:
+        STATUS_PROBLEM,
+      widget: 'select',
+      required: true,
+      widgetProps: {
+        style: {
+          minWidth: '12rem',
+        },
+        placeholder: 'Chọn trạng thái',
+      },
+      initialValue: 0,
+    },
+  ] : [];
   return {
-    formItemLayout: [2, 20],
+    formItemLayout: [3, 20],
     fields: [
       {
         key: 'name',
-        label: 'Tên bài toán',
+        label: 'Tên',
         required: true,
         message: 'Vui lòng nhập tên bài toán',
       },
@@ -21,6 +63,13 @@ export const metaFormAddProblem = () => {
         message: 'Vui lòng nhập độ khó',
         required: true,
       },
+      {
+        key: 'increase',
+        label: 'Increase',
+        widget: 'switch',
+        defaultValue: false,
+      },
+      ...metaEdited,
       {
         key: 'price',
         label: 'Tiền thưởng',

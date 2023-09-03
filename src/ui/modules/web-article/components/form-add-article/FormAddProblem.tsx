@@ -8,6 +8,8 @@ import { Category } from '~/src/domain/category';
 import { metaFormAddProblem } from '~/src/ui/modules/web-article/components/form-add-article/props';
 import FormBuilder from '~/src/ui/shared/forms';
 import Loading from '~/src/ui/shared/loading';
+import moment from 'moment';
+
 
 function FormAddArticle({ id }) {
   const [form] = Form.useForm();
@@ -19,12 +21,13 @@ function FormAddArticle({ id }) {
   const [categories, setCategories] = useState<Category[]>([]);
 
   const handleSubmit = useCallback((values) => {
-    setLoading(true);
+    // setLoading(true);
     const dataSubmit = {
       ...values,
     };
     if (id) {
       dataSubmit.id = id;
+      // const body = {...dataSubmit, createDate: moment.utc(dataSubmit.createDate), finishedDate: dataSubmit.finishedDate ? moment.utc(dataSubmit.finishedDate) : undefined};
       updateWebArticle(dataSubmit).then((res) => {
         setLoading(false);
       });
@@ -41,7 +44,9 @@ function FormAddArticle({ id }) {
       // setCategories(categoryData);
       if (id) {
         const detailProblem = await getDetailProblem(id);
-        form.setFieldsValue(detailProblem);
+        // form.setFieldsValue({ ...detailProblem, createDate: moment.utc(detailProblem.createDate), finishedDate: detailProblem.finishedDate ? moment.utc(detailProblem.finishedDate) : undefined });
+        form.setFieldsValue({ ...detailProblem, createDate: moment(detailProblem.createDate), finishedDate: detailProblem.finishedDate ? moment(detailProblem.finishedDate) : undefined });
+
         setLoading(false);
       } else {
         setLoading(false);
@@ -55,7 +60,7 @@ function FormAddArticle({ id }) {
         <Loading />
       ) : (
         <Form form={form} onFinish={handleSubmit} className="site-page-content">
-          <FormBuilder meta={metaFormAddProblem()} />
+          <FormBuilder meta={metaFormAddProblem({ isEdit: !!id })} />
           <Form.Item wrapperCol={{ offset: 2, span: 18 }}>
             <Space>
               <Button type="primary" htmlType="submit" size="large">
