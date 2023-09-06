@@ -11,7 +11,7 @@ export class UploadAdapter {
   async upload() {
     return this.loader.file.then((file) => {
       const data = new FormData();
-      data.append("file", file);
+      data.append("ImageFile", file);
       const genericError = `Couldn't upload file: ${file.name}.`;
 
       // post image with fetch
@@ -19,14 +19,17 @@ export class UploadAdapter {
         method: "POST",
         body: data,
         credentials: "same-origin",
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
         // headers: {
         //   "Content-Type": "application/json",
         // },
       })
         .then((response) => response.json())
         .then((res) => {
-          console.log("hereacs", res?.data?.url);
-          return { default: res?.data?.url };
+          console.log("imageUrl", res?.imageUrl);
+          return { default: res?.imageUrl };
         })
         .catch((error) => {
           console.log("error", error);

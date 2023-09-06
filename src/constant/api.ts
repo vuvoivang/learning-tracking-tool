@@ -1,6 +1,6 @@
 import { DOMAIN_API_URL } from '.';
 
-export const API_UPLOAD_IMAGE = `${DOMAIN_API_URL}/upload/image_url`;
+export const API_UPLOAD_IMAGE = `${DOMAIN_API_URL}/upload/images`;
 export const API_UPLOAD_IMAGE_THUMB = `${DOMAIN_API_URL}/upload/thumb_url`;
 export const API_UPLOAD_IMAGE_PROMOTION = `${DOMAIN_API_URL}/upload/promotion_image_url`;
 
