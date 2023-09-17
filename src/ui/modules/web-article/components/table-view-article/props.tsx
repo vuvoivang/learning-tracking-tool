@@ -39,6 +39,8 @@ export const columnTableArticle: ColumnType<any>[] = [
   {
     title: 'Giá tiền',
     dataIndex: 'price',
+    // sorter: (a, b) => a.price - b.price,
+    sorter: true,
     width: 180,
     render: (value) => {
       return <p>{formatNumber(value)}đ</p>;
@@ -48,6 +50,7 @@ export const columnTableArticle: ColumnType<any>[] = [
     title: 'Ngày',
     dataIndex: 'date',
     width: 120,
+    sorter: true,
   },
 ];
 

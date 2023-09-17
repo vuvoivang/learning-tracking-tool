@@ -5,6 +5,8 @@ import { TableProps } from 'antd/lib/table';
 import { Container, Draggable } from 'react-smooth-dnd';
 
 import SkeletonTable from './skeleton';
+import { TablePaginationConfig } from 'antd/es/table';
+import type { FilterValue, SorterResult } from 'antd/es/table/interface';
 
 type DragContainerProps = {
   children?: any;
@@ -61,7 +63,9 @@ export interface BaseTableProps<T> extends TableProps<T> {
   enableID?: boolean;
   compact?: boolean;
   enableSort?: boolean;
-  onChange?: (page: PaginationProps) => void;
+  onPageChange?: (page: PaginationProps) => void;
+  onSortChange?: (sortParams: any) => void;
+
   handleOnDrop?: (...args) => void;
   disablePagination?: boolean;
   paginationProps?: any;
@@ -86,7 +90,8 @@ function BaseTable<T extends object>(props: BaseTableProps<T>) {
     compact,
     enableSort = false,
     enableID = false,
-    onChange,
+    onPageChange,
+    onSortChange,
     minHeight,
     className = '',
     handleOnDrop,
@@ -101,9 +106,32 @@ function BaseTable<T extends object>(props: BaseTableProps<T>) {
     showSizeChanger: false,
   });
 
-  const onTableChange = (pageParams) => {
+  const [sort, setSort] = useState({
+    sortField: '',
+    sortOrder: false,
+  });
+
+  const onTableChange = (pageParams: TablePaginationConfig,
+    filters: Record<string, FilterValue>,
+    sorter: SorterResult<any>,) => {
+    console.log(pageParams, filters, sorter);
     setPagination(pageParams);
-    onChange && onChange(pageParams);
+    onPageChange && onPageChange(pageParams);
+    const { field, order } = sorter;
+    const sortParams = {
+      sortField: field as string,
+      sortOrder: order === 'ascend' ? true : false,
+    };
+    if(sort.sortField !== sortParams.sortField || sort.sortOrder !== sortParams.sortOrder) {
+      setSort(sortParams);
+      onSortChange && onSortChange(sortParams);
+    }
+    
+
+    // `dataSource` is useless since `pageSize` changed
+    // if (pageParams.pageSize !== pagination?.pageSize) {
+    //   setData([]);
+    // }
   };
 
   if (!disablePagination) {
@@ -120,7 +148,6 @@ function BaseTable<T extends object>(props: BaseTableProps<T>) {
     rest.pagination = false;
   }
 
-  console.log(rest.pagination);
 
   if (enableID && !columns?.find((i) => i.title === 'STT')) {
     columns?.unshift({

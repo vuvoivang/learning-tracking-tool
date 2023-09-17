@@ -17,7 +17,14 @@ import TableToolbar from '~/src/ui/shared/toolbar';
 import { useSelector } from 'react-redux';
 import { authSelector } from '~/src/adapters/redux/selectors/auth';
 import { ActivityType } from '~/src/constant/new';
-function TableViewArticles() {
+import BaseSearch from '~/src/ui/shared/forms/baseSearch';
+
+const defaultFalseSorts = {
+  ascending: false,
+  sortByPrice: false,
+}
+
+function TableViewProblems() {
   const navigate = useNavigate();
   const { getAllProblems } = useProblem();
   const isAdmin = localStorage.getItem('isAdmin') == "true";
@@ -27,6 +34,9 @@ function TableViewArticles() {
     useList({
       defaultFilters: {
         type: ProblemType.AVAILABLE,
+        ascending: true,
+        sortByPrice: false,
+        searchTerm: '',
       },
       fetchFn: (args) => getAllProblems(args),
       // fetchFn: (args) => Promise.resolve([]),
@@ -89,13 +99,32 @@ function TableViewArticles() {
     columnTableArticleProps.pop();
   }
 
+  const onSortChange = ({ sortField, sortOrder }) => {
+    let sortFilter = {
+      ...defaultFalseSorts,
+    }
+    if (sortField === 'price') {
+      sortFilter.sortByPrice = true;
+      sortFilter.ascending = sortOrder;
+    }
+    if (sortField === 'date') {
+      sortFilter.sortByPrice = false;
+      sortFilter.ascending = sortOrder;
+    }
+    onFilterChange(sortFilter);
+  }
+
   return (
     <>
-      <BaseFilter
-        loading={list.isLoading}
-        meta={metaFilterProblem()}
-        onFilter={onFilterChange}
-      />
+        <BaseFilter
+          loading={list.isLoading}
+          meta={metaFilterProblem()}
+          onFilter={onFilterChange}
+        />
+        <BaseSearch
+          loading={list.isLoading}
+          onFilter={onFilterChange}
+        />
       <Card>
         <TableToolbar
           title={`Tìm thấy ${formatNumber(list.total || 0)} kết quả`}
@@ -123,11 +152,12 @@ function TableViewArticles() {
             // hideOnSinglePage: true,
             showQuickJumper: true,
           }}
-          onChange={onPageChange}
+          onPageChange={onPageChange}
+          onSortChange={onSortChange}
         />
       </Card>
     </>
   );
 }
 
-export default TableViewArticles;
+export default TableViewProblems;

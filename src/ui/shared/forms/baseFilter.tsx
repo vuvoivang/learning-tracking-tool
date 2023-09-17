@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-import { SearchOutlined } from '@ant-design/icons';
+import { CaretDownOutlined   } from '@ant-design/icons';
 import { Button, Form } from 'antd';
 
 import FormBuilder from './FormBuilder';
@@ -37,10 +37,10 @@ const BaseFilter: React.FC<BaseFilterProps> = (props) => {
         <Button
           htmlType="submit"
           type="primary"
-          icon={<SearchOutlined />}
+          icon={<CaretDownOutlined   />}
           loading={loading}
         >
-          Tìm kiếm
+          Áp dụng
         </Button>
       </Form.Item>
     </Form>

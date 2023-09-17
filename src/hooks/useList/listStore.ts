@@ -123,7 +123,10 @@ const listHandler = {
       ...state,
       isFilterChanged: true,
       currentPage: 1,
-      filters,
+      filters: {
+        ...state.filters,
+        ...filters,
+      },
     };
   },
   removeItem: (state, { item, keyId }) => {
