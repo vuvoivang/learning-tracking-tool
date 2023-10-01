@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
+import moment from 'moment';
 import Is from '~/src/utils/is';
 
 export const buildParams = (data?: any) => {
@@ -169,11 +170,11 @@ export const formatStatus = (number) => {
 
 // function to format date to locale
 export const formatDate = (date, locale?: 'vi-VN') => {
-  return date && dayjs(Number(date)).format('DD/MM/YYYY HH:mm:ss');
+  return date && moment(date).utc().format('DD/MM/YYYY HH:mm:ss');
 };
 
 export const formatDateWithoutHour = (date, locale?: 'vi-VN') => {
-  return date && dayjs(Number(date)).format('DD/MM/YYYY');
+  return date && moment(date).utc().format('DD/MM/YYYY');
 };
 
 export function debounce(func, timeout = 300) {

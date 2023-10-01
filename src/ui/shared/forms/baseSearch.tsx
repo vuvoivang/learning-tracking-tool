@@ -24,7 +24,7 @@ const BaseSearch: React.FC<BaseSearchProps> = (props) => {
     const currValue = e.target.value;
     setValue(currValue);
   }
-  const formItemLayout = { wrapperCol: { span: 8 } }
+  const formItemLayout = { wrapperCol: { span: 24 } }
 
 
   useEffect(() => {
@@ -34,13 +34,17 @@ const BaseSearch: React.FC<BaseSearchProps> = (props) => {
   }, [debouncedValue])
 
   return (
-    <Form {...formItemLayout}>
+    <Form layout="inline" {...formItemLayout}>
       <Form.Item>
         <Input
-          addonBefore={<SearchOutlined />}
+          className='search-input'
+          addonBefore={<SearchOutlined style={{ fontSize: '16px', color: '#ffff'}}/>}
           placeholder="Tìm theo tên"
           value={value}
           onChange={handleChange}
+          style={{ width: 350 }}
+          allowClear
+          bordered
         />
       </Form.Item>
     </Form>

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-import { CaretDownOutlined   } from '@ant-design/icons';
+import { CaretDownOutlined } from '@ant-design/icons';
 import { Button, Form } from 'antd';
 
 import FormBuilder from './FormBuilder';
@@ -18,22 +18,26 @@ const BaseFilter: React.FC<BaseFilterProps> = (props) => {
   const [form] = Form.useForm();
 
   const handleChange = useCallback((values) => {
-    const submitFilter = normalizeFn ? normalizeFn(values) : values;
-    logger.info('submitFilter', values);
+    const mappingValues = values.reduce((acc, item) => {
+      return { ...acc, [item.name]: item.value }
+    }, {})
+    const submitFilter = normalizeFn ? normalizeFn(mappingValues) : mappingValues;
+    logger.info('submitFilter', mappingValues);
     logger.info('submitFilter', submitFilter);
     onFilter(submitFilter);
-  }, []);
+}, []);
 
-  return (
-    <Form
-      layout="inline"
-      style={{ marginBottom: '24px', gap: '12px 0' }}
-      initialValues={meta.initialValues}
-      form={form}
-      onFinish={handleChange}
-    >
-      <FormBuilder meta={meta} form={form} />
-      <Form.Item>
+return (
+  <Form
+    layout="inline"
+    style={{ marginBottom: '24px', gap: '12px 0' }}
+    initialValues={meta.initialValues}
+    form={form}
+    onFinish={handleChange}
+    onFieldsChange={handleChange}
+  >
+    <FormBuilder meta={meta} form={form} />
+    {/* <Form.Item>
         <Button
           htmlType="submit"
           type="primary"
@@ -42,9 +46,9 @@ const BaseFilter: React.FC<BaseFilterProps> = (props) => {
         >
           Áp dụng
         </Button>
-      </Form.Item>
-    </Form>
-  );
+      </Form.Item> */}
+  </Form>
+);
 };
 
 export default BaseFilter;

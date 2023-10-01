@@ -233,6 +233,12 @@
       margin-bottom: 16px;
     }
     padding-right: 40px;
+    &_statement{
+      .ck.ck-editor__editable_inline {
+        min-height: unset!important;
+        font-size: 16px;
+      }
+    }
   }
   &_right {
     width: 30%;
@@ -389,4 +395,17 @@
   p{
     margin-bottom: 0px !important;
   }
+}
+.problems-base-query{
+  display: flex;
+  // justify-content: space-between;
+}
+.search-input{
+  .ant-input-group-addon{
+    background-color: #1890ff;
+  }
+}
+.ant-select-arrow
+{
+  color: #1890ff;
 }

@@ -169,7 +169,7 @@ function DetailProblem({ id }) {
             {problem && <><h1 className='problem-content-name'>{problem.name}</h1>
               <div className='problem-content'>
                 <div className='problem-content_left'>
-                  <div>
+                  <div className='problem-content_left_statement'>
                     <h3 className='problem-content-name-zone'>Đề bài:</h3>
                     {/* <div dangerouslySetInnerHTML={{ __html: problem.description }}></div> */}
                     <FormBuilder meta={metaFormDescription()} />

@@ -34,7 +34,7 @@ function TableViewProblems() {
     useList({
       defaultFilters: {
         type: ProblemType.AVAILABLE,
-        ascending: true,
+        ascending: false,
         sortByPrice: false,
         searchTerm: '',
       },
@@ -116,15 +116,18 @@ function TableViewProblems() {
 
   return (
     <>
-        <BaseFilter
-          loading={list.isLoading}
-          meta={metaFilterProblem()}
-          onFilter={onFilterChange}
-        />
-        <BaseSearch
-          loading={list.isLoading}
-          onFilter={onFilterChange}
-        />
+        <div className="problems-base-query">
+          <BaseFilter
+            loading={list.isLoading}
+            meta={metaFilterProblem()}
+            onFilter={onFilterChange}
+          />
+          <BaseSearch
+            loading={list.isLoading}
+            onFilter={onFilterChange}
+          />
+        </div>
+
       <Card>
         <TableToolbar
           title={`Tìm thấy ${formatNumber(list.total || 0)} kết quả`}
