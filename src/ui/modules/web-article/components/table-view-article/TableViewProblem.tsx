@@ -147,6 +147,7 @@ function TableViewProblems() {
           idKey="viewProblems"
           columns={columnTableArticleProps}
           data={{ items: list.items, total: list?.total, pageSize: list.pageSize }}
+          rowClassName={(record) => (record.status === 3 ? "unpublished-row" : "")}
           paginationProps={{
             pageSize: list.pageSize,
             showSizeChanger: true,

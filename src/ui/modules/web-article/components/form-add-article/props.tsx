@@ -8,7 +8,9 @@ import moment from 'moment';
 
 const STATUS_PROBLEM = [
   { value: 0, label: "Chưa hoàn thành" },
-  { value: 1, label: "Đã hoàn thành" }
+  { value: 1, label: "Đã hoàn thành" },
+  // { value: 2, label: "Đã xoá" },
+  { value: 3, label: "Chưa xuất bản" }
 ]
 
 export const metaFormAddProblem = ({ isEdit }) => {
@@ -32,21 +34,7 @@ export const metaFormAddProblem = ({ isEdit }) => {
         format: date => date.utc().format("DD/MM/YYYY HH:mm:ss"),
       }
     },
-    {
-      key: 'status',
-      label: 'Trạng thái',
-      options:
-        STATUS_PROBLEM,
-      widget: 'select',
-      required: true,
-      widgetProps: {
-        style: {
-          minWidth: '12rem',
-        },
-        placeholder: 'Chọn trạng thái',
-      },
-      initialValue: 0,
-    },
+    
   ] : [];
   return {
     formItemLayout: [3, 20],
@@ -70,6 +58,21 @@ export const metaFormAddProblem = ({ isEdit }) => {
         defaultValue: false,
       },
       ...metaEdited,
+      {
+        key: 'status',
+        label: 'Trạng thái',
+        options:
+          STATUS_PROBLEM,
+        widget: 'select',
+        required: true,
+        widgetProps: {
+          style: {
+            minWidth: '12rem',
+          },
+          placeholder: 'Chọn trạng thái',
+        },
+        initialValue: 0,
+      },
       {
         key: 'price',
         label: 'Tiền thưởng',
