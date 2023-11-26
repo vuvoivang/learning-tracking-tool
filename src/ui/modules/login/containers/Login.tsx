@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { useAuth } from '~/src/adapters/appService/auth.service';
 import Logo from '~/src/ui/assets/images/logo.jpg';
+import { getCurrentToken } from '~/src/utils';
 function Login() {
   const { loginByAccount } = useAuth();
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ function Login() {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
+    if (getCurrentToken()) {
       navigate('/problems/list');
     }
   }, []);

@@ -8,7 +8,7 @@ import {
   UserOutlined,
   WindowsOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Button, Dropdown, Space, MenuProps, Avatar } from 'antd';
+import { Layout, Menu, Button, Dropdown, Space, MenuProps, Avatar, Select } from 'antd';
 import { pathToRegexp } from 'path-to-regexp';
 import { useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
@@ -121,6 +121,14 @@ function LayoutApp() {
     },
   ];
 
+  const handleChangeAppSubject = (value) => {
+    localStorage.setItem('subject', value);
+    setTimeout(()=> window.location.reload(), 100);
+  };
+
+  const subjectFromLocalStorage = localStorage.getItem('subject');
+
+
   return (
     <Layout className="cms-layout-app">
       <Sider
@@ -131,7 +139,7 @@ function LayoutApp() {
         width={300}
         theme="light"
       >
-        <div className="logo cursor-pointer" onClick={() => navigate('problems/list?app_type=website')}/>
+        <div className="logo cursor-pointer" onClick={() => navigate('problems/list?app_type=website')} />
         {/* <Menu mode="inline" theme="light" selectedKeys={selectedKeys}>
           {generateMenus(menuTree, appType)}
         </Menu> */}
@@ -159,7 +167,7 @@ function LayoutApp() {
 
           <div className="row">
             <img width="20" height="20" src={NextRank} />
-            <span className="title">Hạng kế tiếp: </span>
+            <span className="title">Hạng kế: </span>
             <span>{userInfo?.nextRank}</span>
           </div>
 
@@ -183,7 +191,13 @@ function LayoutApp() {
             }
           )}
           <div className="top-right-container">
-
+            {!isAdmin && <Select defaultValue={subjectFromLocalStorage}
+              style={{ width: 120 }}
+              onChange={handleChangeAppSubject}
+              options={[
+                { value: 'math', label: 'Toán học' },
+                { value: 'cs', label: 'Tin học' },
+              ]} className='select-subject' />}
             <div className="action-container cursor-pointer">
               <Dropdown
                 menu={{
@@ -197,7 +211,7 @@ function LayoutApp() {
                       backgroundColor: `rgb(0,72,245)`,
                       verticalAlign: 'middle'
                     }} alt="avatar"
-                    // size="small"
+                  // size="small"
                   >{getFirstLetterName(userInfo?.name?.split(' ').pop())}</Avatar>
                   {userInfo && userInfo.name}
                 </Space>

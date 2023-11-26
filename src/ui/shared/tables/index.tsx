@@ -122,7 +122,7 @@ function BaseTable<T extends object>(props: BaseTableProps<T>) {
       sortField: field as string,
       sortOrder: order === 'ascend' ? true : false,
     };
-    if(sort.sortField !== sortParams.sortField || sort.sortOrder !== sortParams.sortOrder) {
+    if(sort.sortField && sort.sortField !== sortParams.sortField || sort.sortOrder !== sortParams.sortOrder) {
       setSort(sortParams);
       onSortChange && onSortChange(sortParams);
     }

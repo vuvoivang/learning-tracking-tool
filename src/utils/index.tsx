@@ -247,3 +247,23 @@ export const getPromiseSettleResponseValue = (res, defaultValue = {}) => {
 export const getFirstLetterName = (name) => {
   return name && name.charAt(0).toUpperCase();
 };
+
+function isJSON(str) {
+  try {
+      return (JSON.parse(str) && !!str);
+  } catch (e) {
+      return false;
+  }
+}
+
+export const getCurrentToken = () => {
+  if(localStorage.getItem('token')){
+    if(isJSON(localStorage.getItem('token'))){
+      const token = JSON.parse(localStorage.getItem('token') || '');
+      const subject = localStorage.getItem('subject') || '';
+      return token?.[subject];
+    }
+  }
+
+  return '';
+}

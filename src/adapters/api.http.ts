@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 
 import { DOMAIN_API_URL, ResponseData } from '~/src/constant';
-import { buildURLWithParam, extend } from '~/src/utils';
+import { buildURLWithParam, extend, getCurrentToken } from '~/src/utils';
 import store from './redux/store';
 
 export function fetch(
@@ -12,7 +12,7 @@ export function fetch(
 ): Promise<ResponseData<any>> {
   const defaultHeaders = {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${localStorage.getItem('token')}`
+    'Authorization': `Bearer ${getCurrentToken()}`
   };
   const exOptions = extend(
     {

@@ -22,7 +22,15 @@ export function useAuth() {
       const resp = await postWithPath(`${API.AUTH.POST.LOGIN}`, data);
       if (resp.type === ApiType.SUCCESS) {
         const auth = resp.data;
-        localStorage.setItem('token', auth.token);
+        localStorage.setItem('token', JSON.stringify({
+          cs: auth.csToken,
+          math: auth.mathToken,
+        }));
+        if(auth.csToken){
+          localStorage.setItem('subject', 'cs');
+        } else if(auth.mathToken){
+          localStorage.setItem('subject', 'math');
+        };
         localStorage.setItem('isAdmin', auth.isAdmin);
         dispatch(setAuthInfo(auth));
         message.success(resp.message);
@@ -56,6 +64,7 @@ export function useAuth() {
       );
       localStorage.removeItem('token');
       localStorage.removeItem('isAdmin');
+      localStorage.removeItem('subject');
       navigate('/login');
     },
   };

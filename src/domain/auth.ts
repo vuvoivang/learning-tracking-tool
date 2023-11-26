@@ -8,6 +8,7 @@ export interface ISessionData {
 }
 
 export interface ILoginResponseData {
-  token: string;
+  csToken: string;
+  mathToken: string;
   isAdmin: boolean;
 }

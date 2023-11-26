@@ -53,9 +53,12 @@ export const metaFormAddProblem = ({ isEdit }) => {
       },
       {
         key: 'increase',
-        label: 'Increase',
+        label: 'Cộng tiền',
         widget: 'switch',
-        defaultValue: false,
+        defaultValue: true,
+        widgetProps:{
+          defaultChecked: true,
+        }
       },
       ...metaEdited,
       {

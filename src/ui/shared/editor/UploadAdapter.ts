@@ -1,5 +1,6 @@
 // Custom Upload Adapter
 import { API_UPLOAD_IMAGE } from "~/src/constant/api";
+import { getCurrentToken } from "~/src/utils";
 
 export class UploadAdapter {
   loader: any;
@@ -20,7 +21,7 @@ export class UploadAdapter {
         body: data,
         credentials: "same-origin",
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${getCurrentToken()}`
         }
         // headers: {
         //   "Content-Type": "application/json",
