@@ -66,7 +66,7 @@ const mappingProblemType = {
   [ProblemType.LEARNING]: "Lịch sử học tập"
 }
 
-export const metaFilterProblem = () => {
+export const metaFilterProblem = ({ defaultValue = ProblemType.AVAILABLE }) => {
   return {
     fields: [
       {
@@ -87,7 +87,7 @@ export const metaFilterProblem = () => {
           style: {
             minWidth: '310px',
           },
-          defaultValue: mappingProblemType[ProblemType.AVAILABLE],
+          defaultValue: mappingProblemType[defaultValue],
         },
       },
     ],

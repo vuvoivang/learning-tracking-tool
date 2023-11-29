@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux';
 import { authSelector } from '~/src/adapters/redux/selectors/auth';
 import { ActivityType } from '~/src/constant/new';
 import BaseSearch from '~/src/ui/shared/forms/baseSearch';
+import { getValueFromLocalStorage, usePersistedExistState } from '~/src/hooks/usePersistedState';
 
 const defaultFalseSorts = {
   ascending: false,
@@ -29,19 +30,22 @@ function TableViewProblems() {
   const { getAllProblems } = useProblem();
   const isAdmin = localStorage.getItem('isAdmin') == "true";
 
-
+  const defaultFilterFromStorage = getValueFromLocalStorage('problemFilters');
+  const calcDefaultFilters = defaultFilterFromStorage || {
+    type: ProblemType.AVAILABLE,
+    ascending: false,
+    sortByPrice: false,
+    searchTerm: '',
+  };
   const [list, { onPageChange, onAddItem, onEditItem, onFilterChange }] =
     useList({
-      defaultFilters: {
-        type: ProblemType.AVAILABLE,
-        ascending: false,
-        sortByPrice: false,
-        searchTerm: '',
-      },
+      defaultFilters: calcDefaultFilters,
       fetchFn: (args) => getAllProblems(args),
       // fetchFn: (args) => Promise.resolve([]),
     });
 
+  usePersistedExistState(list.filters, 'problemFilters');
+  
   const columnTableArticleProps: any = [
     ...columnTableArticle,
     {
@@ -90,6 +94,12 @@ function TableViewProblems() {
   if (!isAdmin) {
     columnTableArticleProps.pop();
   }
+  if (calcDefaultFilters.sortByPrice) {
+    columnTableArticleProps.find(item => item.title === 'Giá tiền').defaultSortOrder = list.filters.ascending ? 'ascend' : 'descend';
+  } else {
+    columnTableArticleProps.find(item => item.title === 'Ngày').defaultSortOrder = list.filters.ascending ? 'ascend' : 'descend';
+  }
+
 
   const onSortChange = ({ sortField, sortOrder }) => {
     let sortFilter = {
@@ -111,12 +121,13 @@ function TableViewProblems() {
         <div className="problems-base-query">
           <BaseFilter
             loading={list.isLoading}
-            meta={metaFilterProblem()}
+            meta={metaFilterProblem({ defaultValue: calcDefaultFilters.type })}
             onFilter={onFilterChange}
           />
           <BaseSearch
             loading={list.isLoading}
             onFilter={onFilterChange}
+            defaultValue={calcDefaultFilters.searchTerm}
           />
         </div>
 

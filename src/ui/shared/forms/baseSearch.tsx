@@ -12,11 +12,12 @@ type BaseSearchProps = {
   loading: boolean;
   onFilter: (...args) => void;
   normalizeFn?: (...args) => void;
+  defaultValue?: string;
 };
 
 const BaseSearch: React.FC<BaseSearchProps> = (props) => {
-  const { loading, onFilter, normalizeFn } = props;
-  const [value, setValue] = useState('');
+  const { loading, onFilter, normalizeFn, defaultValue = '' } = props;
+  const [value, setValue] = useState(defaultValue);
   const debouncedValue = useDebounce<string>(value, 500)
 
 
