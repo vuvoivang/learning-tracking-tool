@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { InboxOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { Upload, message } from 'antd';
 import { UploadChangeParam } from 'antd/lib/upload';
 
 import { WidgetProps } from '~/src/ui/shared/forms/FormBuilder/FormBuilder';
 import logger from '~/src/utils/logger';
 import Video from '../video';
+import { getCurrentToken } from '~/src/utils';
 
 interface UploadButtonProps extends WidgetProps {
   api?: string;
@@ -15,7 +16,7 @@ interface UploadButtonProps extends WidgetProps {
 const acceptedFileTypes = ['image/jpeg', 'image/png'];
 
 const UploadButton: React.FC<UploadButtonProps> = (props) => {
-  const { onChange, value, api, moreAcceptedFileTypes = [], videoProps = {} } = props;
+  const { onChange, value = [], api, moreAcceptedFileTypes = [] } = props;
   const [loading, setLoading] = useState(false);
 
   const beforeUpload = (file: File) => {
@@ -26,14 +27,8 @@ const UploadButton: React.FC<UploadButtonProps> = (props) => {
     return isJpgOrPng;
   };
 
-  const uploadButton = (
-    <div>
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  );
-
   const handleChange = (info: UploadChangeParam) => {
+    console.log(info.file)
     if (info.file.status === 'uploading') {
       setLoading(true);
       logger.debug('uploading!');
@@ -43,15 +38,15 @@ const UploadButton: React.FC<UploadButtonProps> = (props) => {
     if (info.file.status === 'done') {
       setLoading(false);
       logger.debug('uploaded!', info.file);
-
-      const urlFile: string = info.file.response?.data?.url;
-
+      const urlFile: string = info.file.response?.url;
       if (urlFile) {
+        const currentFile = info.fileList.find((file) => file.uid === info.file.uid);
+        if (currentFile) currentFile.url = urlFile;
         logger.debug('urlFile | uploaded', urlFile);
-        onChange(urlFile);
+        onChange(info.fileList);
       } else {
         message.error(
-          `${info.file.name} file uploaded failed | error: ${info.file.response?.data?.detail || 'Không xác định'
+          `${info.file.name} file uploaded failed | error: ${info.file.response?.message || 'Không xác định'
           }`
         );
         return;
@@ -63,35 +58,80 @@ const UploadButton: React.FC<UploadButtonProps> = (props) => {
       setLoading(false);
       message.error(`${info.file.name} file upload failed`);
     }
+
+    if (info.file.status === 'removed') {
+      const removedFileUid: string = info.file.uid;
+      if (removedFileUid) {
+        onChange(info.fileList.filter((file) => file.uid !== removedFileUid));
+      } else {
+        message.error(
+          `Xoá file thất bại`
+        );
+        return;
+      }
+    }
   };
 
-  const headerConfig: any = {};
+  const headerConfig: any = {
+    'Authorization': `Bearer ${getCurrentToken()}`
+  };
 
-  const fileExtension = value?.split('.')?.pop();
+  const handleUpload = async options => {
+    const { onSuccess, onError, file } = options;
+
+    const data = new FormData();
+    data.append("ImageFile", file);
+    const genericError = `Couldn't upload file: ${file.name}.`;
+
+    // post image with fetch
+    return fetch(api, {
+      method: "POST",
+      body: data,
+      credentials: "same-origin",
+      headers: {
+        'Authorization': `Bearer ${getCurrentToken()}`
+      }
+      // headers: {
+      //   "Content-Type": "application/json",
+      // },
+    })
+      .then((response) => response.json())
+      .then((res) => {
+        onSuccess({
+          ...file,
+          url: res.imageUrl,
+        });
+      })
+      .catch((error) => {
+        console.log("error", error);
+        Promise.reject(error?.message ?? genericError);
+        onError({ message: error?.message });
+      });
+  }
+  console.log(value)
   return (
-    <Upload
-      accept="image/*, video/*"
-      name="file"
-      listType="picture-card"
+    <Upload.Dragger
+      accept="*"
+      name="ImageFile"
       className="avatar-uploader"
-      showUploadList={false}
-      action={api}
-      beforeUpload={beforeUpload}
+      // action={api}
+      // fileList={value}
+      defaultFileList={value}
+      customRequest={handleUpload}
       onChange={handleChange}
       withCredentials
       headers={headerConfig}
       method="post"
+      multiple
+      maxCount={20}
     >
-      {value ?
-        fileExtension === "mp4" ?
-          (
-            <Video src={value} height={videoProps.height} width={videoProps.width} />
-          ) : (
-            <img src={value} alt="avatar" style={{ width: '100%' }} />
-          ) : (
-          uploadButton
-        )}
-    </Upload>
+      <p className="ant-upload-drag-icon">
+        <InboxOutlined />
+      </p>
+      <p className="ant-upload-text">Chọn hoặc kéo thả file</p>
+      {loading && <LoadingOutlined />}
+
+    </Upload.Dragger>
   );
 };
 

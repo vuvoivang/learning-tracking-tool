@@ -90,14 +90,22 @@ export const metaFormAddProblem = ({ isEdit }) => {
       },
       {
         key: 'description',
-        label: 'Mô tả',
-        message: 'Vui lòng nhập mô tả',
+        label: 'Đề bài',
+        message: 'Vui lòng nhập đề bài',
         widget: Editor,
       },
+      // {
+      //   key: 'solution',
+      //   label: 'Cách giải',
+      //   widget: Editor,
+      // },
       {
-        key: 'solution',
-        label: 'Cách giải',
-        widget: Editor,
+        key: 'attachments',
+        label: 'Tài liệu đính kèm',
+        widget: UploadButton,
+        widgetProps: {
+          api: API_UPLOAD_IMAGE,
+        },
       },
     ],
   };

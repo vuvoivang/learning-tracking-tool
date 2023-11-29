@@ -16,7 +16,6 @@ export function fetch(
   };
   const exOptions = extend(
     {
-      // credentials: 'include',
       headers: defaultHeaders,
     },
     options

@@ -47,3 +47,19 @@ export const metaFormAddProblem = ({ isReadonlySolution }) => {
   };
 };
 
+export const metaFormAddAttachments = () => {
+  return {
+    formItemLayout: [2, 20],
+    fields: [
+      {
+        key: 'solutionAttachments',
+        // label: 'Tài liệu đính kèm bài làm',
+        widget: UploadButton,
+        widgetProps: {
+          api: API_UPLOAD_IMAGE,
+        },
+      },
+    ],
+  };
+};
+

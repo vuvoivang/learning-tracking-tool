@@ -415,7 +415,69 @@
 }
 .unpublished-row{
   background-color: #e4e2e2;
+  .ant-table-column-sort{
+    background: #e4e2e2!important;
+
+  }
   &:hover{
     td {background-color: #c7c6c6!important;}
+  }
+}
+.ant-upload-list-picture-card{
+  margin-top: 8px;
+}
+/* FileList.css */
+.file-list {
+  list-style: none;
+  padding: 0;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 8px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  width: 100%;
+  width: 300px;
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+  position: relative;
+  padding-right: 45px;
+
+  div{
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  cursor: pointer;
+  &:hover {
+    border-color: #1890ff;
+    background-color: rgb(227, 240, 247);
+  }
+  .download{
+    width: 40px;
+    position: absolute;
+    right: 0px;
+  }
+}
+
+.file-item svg {
+  margin-right: 8px;
+  color: #f85b00;
+  width: 20px!important;
+  height: 20px;
+}
+
+.button-submit{
+  margin-top: 40px;
+  .ant-form-item-row{
+    justify-content: center;
   }
 }

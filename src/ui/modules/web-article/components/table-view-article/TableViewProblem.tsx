@@ -57,13 +57,9 @@ function TableViewProblems() {
               ghost
               icon={<EyeOutlined />}
               style={{ color: '#0050b3' }}
-              onClick={() =>
-                navigate(
-                  `/problem/detail-problem?${createSearchParams({
-                    id: record.activityId,
-                  }).toString()}`
-                )
-              }
+              href={`/problem/detail-problem?${createSearchParams({
+                id: record.activityId,
+              }).toString()}`}
             />
           </Space>
         );
@@ -82,13 +78,9 @@ function TableViewProblems() {
               ghost
               icon={<EditOutlined />}
               style={{ color: '#0050b3' }}
-              onClick={() =>
-                navigate(
-                  `/problem/update?${createSearchParams({
-                    id: record.activityId,
-                  }).toString()}`
-                )
-              }
+              href={`/problem/update?${createSearchParams({
+                id: record.activityId,
+              }).toString()}`}
             />
           </Space>
         );
@@ -135,9 +127,7 @@ function TableViewProblems() {
           {isAdmin && <Button
             type="primary"
             icon={<PlusCircleOutlined />}
-            onClick={() => {
-              navigate(`/problem/create`);
-            }}
+            href='/problem/create'
             style={{ width: 'fit-content', alignSelf: 'flex-end' }}
           >
             Tạo bài mới

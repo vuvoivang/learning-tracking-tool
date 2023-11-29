@@ -8,7 +8,7 @@ import { Category } from '~/src/domain/category';
 import FormBuilder from '~/src/ui/shared/forms';
 import Loading from '~/src/ui/shared/loading';
 import { Problem } from '~/src/domain/webArticle';
-import { metaFormAddProblem, metaFormDescription } from './props';
+import { metaFormAddAttachments, metaFormAddProblem, metaFormDescription } from './props';
 import { formatDate, formatDateWithoutHour, formatNumber, formatStatus, getFirstLetterName } from '~/src/utils';
 import { useSelector } from 'react-redux';
 import { userSelector } from '~/src/adapters/redux/selectors/user';
@@ -16,6 +16,7 @@ import { AppstoreOutlined, MenuOutlined, SendOutlined } from '@ant-design/icons'
 import { authSelector } from '~/src/adapters/redux/selectors/auth';
 import Modal from 'antd/lib/modal/Modal';
 import { useComment } from '~/src/adapters/appService/comment.service';
+import FileList from '../file-list/FileList';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -34,6 +35,8 @@ function getItem(
     type,
   } as MenuItem;
 }
+const DELIMITER_END_DESC = "##__END_DESCRIPTION__##";
+
 
 function DetailProblem({ id }) {
   const [form] = Form.useForm();
@@ -43,6 +46,7 @@ function DetailProblem({ id }) {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [problem, setProblem] = useState<Problem>();
+  const [attachments, setAttachments] = useState<any>([]);
 
   const [categories, setCategories] = useState<Category[]>([]);
   const { name } = useSelector(userSelector);
@@ -50,11 +54,16 @@ function DetailProblem({ id }) {
 
   const handleSubmit = useCallback((values) => {
 
+    const solutionAttachments = values.solutionAttachments ? JSON.stringify(values.solutionAttachments.map((({ name, url, uid, type }) => ({ name, url, uid, type })))) : "";
+
     setLoading(true);
     const dataSubmit = {
       ...problem,
       ...values,
+      description: problem?.description,
+      solution: `${values.solution}${DELIMITER_END_DESC}${solutionAttachments}`,
     };
+    delete dataSubmit.solutionAttachments;
     if (id) {
       dataSubmit.id = id;
       updateProblem(dataSubmit).finally(() => {
@@ -69,7 +78,16 @@ function DetailProblem({ id }) {
       // setCategories(categoryData);
       if (id) {
         const detailProblem = await getDetailProblem(id);
-        form.setFieldsValue(detailProblem);
+        const [description, attachments] = (detailProblem.description || "").split(DELIMITER_END_DESC);
+        const [solution, solutionAttachments] = (detailProblem.solution || "").split(DELIMITER_END_DESC);
+
+        if (attachments?.length > 0) {
+          setAttachments(JSON.parse(attachments))
+        }
+        if (solutionAttachments?.length > 0) {
+          form.setFieldValue("solutionAttachments", JSON.parse(solutionAttachments));
+        } else form.setFieldValue("solutionAttachments", []);
+        form.setFieldsValue({ ...detailProblem, description, solution });
         setProblem(detailProblem);
         setLoading(false);
       } else {
@@ -143,7 +161,7 @@ function DetailProblem({ id }) {
 
   useEffect(() => {
     const prevTitle = document.title
-    if(problem?.name) document.title = problem.name;
+    if (problem?.name) document.title = problem.name;
     return () => {
       document.title = prevTitle
     }
@@ -176,7 +194,11 @@ function DetailProblem({ id }) {
                   </div>
                   <div>
                     <h3 className='problem-content-name-zone'>Bài làm:</h3>
-                    <FormBuilder meta={metaFormAddProblem({isReadonlySolution})} />
+                    <FormBuilder meta={metaFormAddProblem({ isReadonlySolution })} />
+                  </div>
+                  <div>
+                    <h3 className='problem-content-name-zone'>Đính kèm bài làm:</h3>
+                    <FormBuilder meta={metaFormAddAttachments()} />
                   </div>
                 </div>
                 <div className='problem-content_right'>
@@ -204,6 +226,10 @@ function DetailProblem({ id }) {
                       </Form.Item>}
                     </Space>
 
+                    {attachments?.length > 0 && <div className="info-zone">
+                      <h3 className="title">Đính kèm đề bài: </h3>
+                      <FileList files={attachments} />
+                    </div>}
 
                     <div className="info-zone">
                       <div className="row">
